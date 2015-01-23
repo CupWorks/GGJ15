@@ -37,6 +37,7 @@
     <TypeScriptCompile Include="boot.ts" />
     <TypeScriptCompile Include="credits.ts" />
     <TypeScriptCompile Include="framework\fullscreenState.ts" />
+    <TypeScriptCompile Include="intro.ts" />
     <TypeScriptCompile Include="story.ts" />
     <TypeScriptCompile Include="game.ts" />
     <TypeScriptCompile Include="level.ts" />

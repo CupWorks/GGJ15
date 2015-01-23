@@ -11,10 +11,6 @@ var Octopussy;
         function Boot() {
             _super.apply(this, arguments);
         }
-        Boot.prototype.preload = function () {
-            this.load.image('logo_cupworks', 'assets/logo_cupworks.png');
-        };
-
         Boot.prototype.create = function () {
             this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
             this.game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
@@ -22,7 +18,7 @@ var Octopussy;
 
             this.stage.disableVisibilityChange = true;
 
-            this.game.state.start('MainMenu', true, false);
+            this.game.state.start('Intro', true, false);
         };
         return Boot;
     })(Phaser.State);
@@ -77,6 +73,7 @@ var Octopussy;
             _super.call(this, 1440, 720, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Octopussy.Boot, false);
+            this.state.add('Intro', Octopussy.Intro, false);
             this.state.add('Story', Octopussy.Story, false);
             this.state.add('MainMenu', Octopussy.MainMenu, false);
             this.state.add('Credits', Octopussy.Credits, false);
@@ -92,6 +89,36 @@ var Octopussy;
 window.onload = function () {
     var game = new Octopussy.Game();
 };
+/// <reference path="framework/fullscreenState.ts"/>
+var Octopussy;
+(function (Octopussy) {
+    var Intro = (function (_super) {
+        __extends(Intro, _super);
+        function Intro() {
+            _super.apply(this, arguments);
+        }
+        Intro.prototype.preload = function () {
+            this.load.image('logo_cupworks', 'assets/logo_cupworks.png');
+        };
+
+        Intro.prototype.create = function () {
+            _super.prototype.create.call(this);
+
+            var logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo_cupworks');
+            logo.anchor.setTo(0.5, 0.5);
+            logo.alpha = 0;
+
+            var tween = this.add.tween(logo).to({ alpha: 1 }, 2000, Phaser.Easing.Bounce.InOut, true);
+            tween.onComplete.add(this.changeState, this);
+        };
+
+        Intro.prototype.changeState = function () {
+            this.game.state.start('MainMenu');
+        };
+        return Intro;
+    })(Octopussy.FullscreenState);
+    Octopussy.Intro = Intro;
+})(Octopussy || (Octopussy = {}));
 /// <reference path="framework/fullscreenState.ts"/>
 var Octopussy;
 (function (Octopussy) {

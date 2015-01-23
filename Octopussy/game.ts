@@ -8,6 +8,7 @@ module Octopussy {
             super(1440, 720, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Boot, false);
+            this.state.add('Intro', Intro, false);
             this.state.add('Story', Story, false);
             this.state.add('MainMenu', MainMenu, false);
             this.state.add('Credits', Credits, false);
