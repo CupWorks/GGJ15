@@ -12,14 +12,14 @@ var Octopussy;
             _super.apply(this, arguments);
         }
         Boot.prototype.preload = function () {
-            //this.load.image('preloadBar', 'assets/loader.png');
+            this.load.image('logo_cupworks', 'assets/logo_cupworks.png');
         };
 
         Boot.prototype.create = function () {
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
 
-            this.game.state.start('Preloader', true, false);
+            this.game.state.start('MainMenu', true, false);
         };
         return Boot;
     })(Phaser.State);
@@ -54,6 +54,8 @@ var Octopussy;
             _super.apply(this, arguments);
         }
         MainMenu.prototype.create = function () {
+            this.logo = this.add.sprite(0, 0, 'logo_cupworks');
+            console.log('Foo', this.world.centerX);
         };
         return MainMenu;
     })(Phaser.State);
