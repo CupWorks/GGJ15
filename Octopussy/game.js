@@ -77,6 +77,7 @@ var Octopussy;
             _super.call(this, 1440, 720, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Octopussy.Boot, false);
+            this.state.add('Story', Octopussy.Story, false);
             this.state.add('MainMenu', Octopussy.MainMenu, false);
             this.state.add('Credits', Octopussy.Credits, false);
             this.state.add('Level', Octopussy.Level, false);
@@ -130,7 +131,7 @@ var Octopussy;
         };
 
         MainMenu.prototype.startClick = function () {
-            this.game.state.start('Level');
+            this.game.state.start('Story');
         };
 
         MainMenu.prototype.creditsClick = function () {
@@ -139,5 +140,48 @@ var Octopussy;
         return MainMenu;
     })(Octopussy.FullscreenState);
     Octopussy.MainMenu = MainMenu;
+})(Octopussy || (Octopussy = {}));
+/// <reference path="framework/fullscreenState.ts"/>
+var Octopussy;
+(function (Octopussy) {
+    var Story = (function (_super) {
+        __extends(Story, _super);
+        function Story() {
+            _super.apply(this, arguments);
+            this.storyText = [
+                'Hier könnte ihre Werbung stehen!',
+                'Echt jetzt!',
+                'Dann eben nicht!',
+                'Fuuuuuu!!!'
+            ];
+            this.storyState = 0;
+        }
+        Story.prototype.create = function () {
+            _super.prototype.create.call(this);
+
+            this.stage.setBackgroundColor('#44FF10');
+
+            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+            this.textElement = this.add.text(this.game.world.centerX, this.game.world.centerY, "", style);
+            this.input.onDown.add(this.next, this);
+        };
+
+        Story.prototype.changeText = function (text) {
+            this.textElement.text = text;
+            this.textElement.anchor.x = Math.round(this.textElement.width * 0.5) / this.textElement.width;
+            this.textElement.anchor.y = Math.round(this.textElement.height * 0.5) / this.textElement.height;
+        };
+
+        Story.prototype.next = function () {
+            if (this.storyState == this.storyText.length) {
+                this.game.state.start('Level');
+            }
+
+            this.changeText(this.storyText[this.storyState]);
+            this.storyState++;
+        };
+        return Story;
+    })(Octopussy.FullscreenState);
+    Octopussy.Story = Story;
 })(Octopussy || (Octopussy = {}));
 //# sourceMappingURL=game.js.map

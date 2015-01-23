@@ -20,7 +20,7 @@ module Octopussy {
 
         private startClick() {
 
-            this.game.state.start('Level');
+            this.game.state.start('Story');
         }
 
         private creditsClick() {
