@@ -324,3 +324,4 @@ npm-debug.log
 
 *.map
 *.js
+*/.tscache/*
