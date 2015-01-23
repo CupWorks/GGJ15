@@ -1,12 +1,12 @@
 ﻿/// <reference path="framework/fullscreenState.ts"/>
 
 module Octopussy {
-    export class Level extends FullscreenState {
+    export class Credits extends FullscreenState {
 
         create() {
             super.create();
 
-            this.stage.setBackgroundColor('#FF9933');
+            this.stage.setBackgroundColor('#99EE24');
         }
     }
-}  
+} 

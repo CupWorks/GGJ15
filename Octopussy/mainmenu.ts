@@ -1,17 +1,31 @@
-﻿module Octopussy {
+﻿/// <reference path="framework/fullscreenState.ts"/>
+
+module Octopussy {
     export class MainMenu extends FullscreenState {
 
-        logo: Phaser.Sprite;
+        preload() {
+
+            this.load.image('button_start', 'assets/mainmenu/button_start.png');
+            this.load.image('button_credits', 'assets/mainmenu/button_credits.png');
+
+        }
 
         create() {
             super.create();
 
             this.stage.setBackgroundColor('#C0C0C0');
-            this.logo = this.add.sprite(0, 0, 'logo_cupworks');
-            this.logo.scale.x = 0.5;
-            this.logo.scale.y = 0.5;
+            var button = this.add.button(this.game.world.centerX - 250, this.game.world.centerY - 275, 'button_start', this.startClick, this);
+            var button = this.add.button(this.game.world.centerX - 250, this.game.world.centerY - 75, 'button_credits', this.creditsClick, this);
+        }
+
+        private startClick() {
 
             this.game.state.start('Level');
+        }
+
+        private creditsClick() {
+
+            this.game.state.start('Credits');
         }
     }
 }

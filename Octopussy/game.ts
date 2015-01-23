@@ -5,10 +5,11 @@ module Octopussy {
 
         constructor() {
             
-            super(900, 450, Phaser.AUTO, 'content', null);
+            super(1440, 720, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Boot, false);
             this.state.add('MainMenu', MainMenu, false);
+            this.state.add('Credits', Credits, false);
             this.state.add('Level', Level, false);
 
             this.state.start('Boot');

@@ -51,16 +51,34 @@ var Octopussy;
     })(Phaser.State);
     Octopussy.FullscreenState = FullscreenState;
 })(Octopussy || (Octopussy = {}));
+/// <reference path="framework/fullscreenState.ts"/>
+var Octopussy;
+(function (Octopussy) {
+    var Credits = (function (_super) {
+        __extends(Credits, _super);
+        function Credits() {
+            _super.apply(this, arguments);
+        }
+        Credits.prototype.create = function () {
+            _super.prototype.create.call(this);
+
+            this.stage.setBackgroundColor('#99EE24');
+        };
+        return Credits;
+    })(Octopussy.FullscreenState);
+    Octopussy.Credits = Credits;
+})(Octopussy || (Octopussy = {}));
 /// <reference path="node_modules\phaser\typescript\phaser.d.ts"/>
 var Octopussy;
 (function (Octopussy) {
     var Game = (function (_super) {
         __extends(Game, _super);
         function Game() {
-            _super.call(this, 900, 450, Phaser.AUTO, 'content', null);
+            _super.call(this, 1440, 720, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Octopussy.Boot, false);
             this.state.add('MainMenu', Octopussy.MainMenu, false);
+            this.state.add('Credits', Octopussy.Credits, false);
             this.state.add('Level', Octopussy.Level, false);
 
             this.state.start('Boot');
@@ -73,6 +91,7 @@ var Octopussy;
 window.onload = function () {
     var game = new Octopussy.Game();
 };
+/// <reference path="framework/fullscreenState.ts"/>
 var Octopussy;
 (function (Octopussy) {
     var Level = (function (_super) {
@@ -89,6 +108,7 @@ var Octopussy;
     })(Octopussy.FullscreenState);
     Octopussy.Level = Level;
 })(Octopussy || (Octopussy = {}));
+/// <reference path="framework/fullscreenState.ts"/>
 var Octopussy;
 (function (Octopussy) {
     var MainMenu = (function (_super) {
@@ -96,15 +116,25 @@ var Octopussy;
         function MainMenu() {
             _super.apply(this, arguments);
         }
+        MainMenu.prototype.preload = function () {
+            this.load.image('button_start', 'assets/mainmenu/button_start.png');
+            this.load.image('button_credits', 'assets/mainmenu/button_credits.png');
+        };
+
         MainMenu.prototype.create = function () {
             _super.prototype.create.call(this);
 
             this.stage.setBackgroundColor('#C0C0C0');
-            this.logo = this.add.sprite(0, 0, 'logo_cupworks');
-            this.logo.scale.x = 0.5;
-            this.logo.scale.y = 0.5;
+            var button = this.add.button(this.game.world.centerX - 250, this.game.world.centerY - 275, 'button_start', this.startClick, this);
+            var button = this.add.button(this.game.world.centerX - 250, this.game.world.centerY - 75, 'button_credits', this.creditsClick, this);
+        };
 
+        MainMenu.prototype.startClick = function () {
             this.game.state.start('Level');
+        };
+
+        MainMenu.prototype.creditsClick = function () {
+            this.game.state.start('Credits');
         };
         return MainMenu;
     })(Octopussy.FullscreenState);
