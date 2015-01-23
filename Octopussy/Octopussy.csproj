@@ -35,7 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="boot.ts" />
+    <TypeScriptCompile Include="framework\fullscreenState.ts" />
     <TypeScriptCompile Include="game.ts" />
+    <TypeScriptCompile Include="level.ts" />
     <TypeScriptCompile Include="mainmenu.ts" />
   </ItemGroup>
   <ItemGroup>
