@@ -1,4 +1,5 @@
-﻿/// <reference path="framework/fullscreenState.ts"/>
+﻿/// <reference path="levelData.ts"/>
+/// <reference path="framework/fullscreenState.ts"/>
 
 module Octopussy {
 
@@ -9,17 +10,9 @@ module Octopussy {
     export class Level extends FullscreenState {
 
         private tileSize: number =  128;
-        private levelData: string[] = 
-        [
-            '##############',
-            '##############',
-            '##      S## ##',
-            '##T#### ### ##',
-            '##T#### ### ##',
-            '##          ##',
-            '##############',
-            '##############'
-        ];
+        private levelData: LevelData = new LevelData();
+        private currentLevel: number = 0;
+        private currentLevelData: string[] = this.levelData.get(this.currentLevel);
         private visibleTiles: Phaser.Sprite[][] = 
         [
             [null, null, null, null, null],
@@ -30,10 +23,8 @@ module Octopussy {
         ];
         private isUpdating: boolean = false;
         private playerPosition: Phaser.Point = new Phaser.Point();
-
         private keyMap: Phaser.Key[] = [null, null, null, null];
-
-        private moveSpeed: number = 5;
+        private moveSpeed: number = 1;
 
         player: Phaser.Sprite;
         levelMusic: Phaser.Sound;
@@ -43,8 +34,7 @@ module Octopussy {
 
         preload() {
 
-            this.load.image('tile_block', 'assets/level/tile_block.png');
-            this.load.image('tile_way', 'assets/level/tile_way.png');
+            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 8);
 
             this.load.image('hud_mask','assets/level/hud/mask_hud_main.png');
             this.load.image('hud_btn_left','assets/level/hud/btn_hud_left.png');
@@ -69,11 +59,11 @@ module Octopussy {
 
         private createLevel() {
 
-            for(var r = 0; r < this.levelData.length; r++) {
+            for(var r = 0; r < this.currentLevelData.length; r++) {
 
-                for(var c = 0; c < this.levelData[r].length; c++) {
+                for(var c = 0; c < this.currentLevelData[r].length; c++) {
 
-                    var symbol = this.levelData[r][c];
+                    var symbol = this.currentLevelData[r][c];
 
                     switch (symbol) {
                         case 'S':
@@ -88,7 +78,9 @@ module Octopussy {
 
                 for(var c = 0; c < 5; c++) {
 
-                    this.visibleTiles[r][c] = this.add.sprite(0, 0, 'tile_block');
+                    var sprite = this.add.sprite(0, 0, 'tiles');
+                    sprite.scale.setTo(0.25, 0.25);
+                    this.visibleTiles[r][c] = sprite;
                 }
             };
 
@@ -132,7 +124,7 @@ module Octopussy {
                 this.playerPosition.y = this.playerPosition.y + change.y;
 
                 var timer = this.game.time.create(true);
-                timer.add((1000 / this.moveSpeed) + 50, this.updateTilePositions, this);
+                timer.add((1000 / this.moveSpeed) + 100, this.updateTilePositions, this);
                 timer.start();
 
                 for(var r = 0; r < 5; r++) {
@@ -152,25 +144,49 @@ module Octopussy {
 
         private updateTilePositions() {  
 
-            this.positionEvent(this.levelData[this.playerPosition.y][this.playerPosition.x]);
+            this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
 
             for(var r = 0; r < 5; r++) {
 
                 for(var c = 0; c < 5; c++) {
 
-                    var symbol = this.levelData[this.playerPosition.y + r - 2][this.playerPosition.x + c - 2];
+                    var symbol = this.currentLevelData[this.playerPosition.y + r - 2][this.playerPosition.x + c - 2];
                     var sprite = this.visibleTiles[c][r];
 
                     switch (symbol) {
 
+                        case '1':
+                            sprite.loadTexture('tiles', 0);
+                        break;
+
+                        case '2':
+                            sprite.loadTexture('tiles', 1);
+                        break;
+
+                        case '3':
+                            sprite.loadTexture('tiles', 2);
+                        break;
+
+                        case '4':
+                            sprite.loadTexture('tiles', 3);
+                        break;
+
                         case '#':
-                            sprite.loadTexture('tile_block', 0);
+                            sprite.loadTexture('tiles', 6);
+                        break;
+
+                        case '-':
+                            sprite.loadTexture('tiles', 4);
+                        break;
+
+                        case '|':
+                            sprite.loadTexture('tiles', 5);
                         break;
 
                         case 'T':
                         case 'S':
                         case ' ':
-                            sprite.loadTexture('tile_way', 0);
+                            sprite.loadTexture('tiles', 6);
                         break;
                     }
 
@@ -214,8 +230,8 @@ module Octopussy {
 
         initHud() {
 
-            this.hud = this.add.sprite(0, 0, 'hud_mask');
-            this.hud.fixedToCamera = true;
+            //this.hud = this.add.sprite(0, 0, 'hud_mask');
+            //this.hud.fixedToCamera = true;
         }
 
         initPlayer() {
@@ -253,9 +269,11 @@ module Octopussy {
         private canMove(direction: Direction): boolean {
 
             var change = this.getPositionChange(direction);
-            var symbol = this.levelData[this.playerPosition.y + change.y][this.playerPosition.x + change.x];
+            var symbol = this.currentLevelData[this.playerPosition.y + change.y][this.playerPosition.x + change.x];
 
-            if(symbol == '#') {
+            if(symbol == '#' || symbol == '-' || symbol == '|' ||
+               symbol == '1' || symbol == '2'|| symbol == '3'||
+               symbol == '4') {
 
                 return false;
             }
