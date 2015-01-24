@@ -37,13 +37,13 @@ module Octopussy {
             this.stage.setBackgroundColor('#000000');
             var map = this.add.tilemap('level1map');
             map.addTilesetImage('level_test', 'level1');
-            console.log('map',map);
             this.collusion = map.createLayer('Background');
             this.layer = map.createLayer('Allowed');
-            this.layer.resizeWorld();
-            this.collusion.resizeWorld();
             this.physics.arcade.enable(this.collusion);
             this.collusion.enableBody = true;
+            this.collusion.debug = true;
+            this.layer.resizeWorld();
+            this.collusion.resizeWorld();
             this.game.camera.x+=1000;
             this.game.camera.y+=600;
             this.player = this.initPlayer();
@@ -63,7 +63,7 @@ module Octopussy {
         }
 
         initPlayer() {
-            var player = this.add.sprite(768, 360, 'player');
+            var player = this.add.sprite(730, 320, 'player');
             player.scale.setTo(0.8, 0.8);
             player.anchor.setTo(0.5, 0.5);
             player.animations.add('up', [0], 10, false);
@@ -77,10 +77,12 @@ module Octopussy {
             return player;
         }
 
+        onCollusion() {
+            console.log('collusion');
+        }
+
         update() {
-            this.physics.arcade.collide(this.player, this.collusion,function(){
-                console.log('collusion');
-            });
+            this.physics.arcade.collide(this.player, this.collusion,this.onCollusion);
 
             if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
                 this.camera.y -= 4;
@@ -91,7 +93,7 @@ module Octopussy {
                 this.player.animations.play('down');
             }
             else if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-                this.game.camera.x -= 4;
+                this.camera.x -= 4;
                 this.player.animations.play('left');
             }
             else if (this.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
