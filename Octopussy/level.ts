@@ -127,7 +127,7 @@ module Octopussy {
                 this.playerPosition.y = this.playerPosition.y + change.y;
 
                 var timer = this.game.time.create(true);
-                timer.add((1000 / this.moveSpeed) + 100, this.updateTilePositions, this);
+                timer.add((1000 / this.moveSpeed) + 300, this.updateTilePositions, this);
                 timer.start();
 
                 for(var r = 0; r < 5; r++) {
@@ -281,8 +281,8 @@ module Octopussy {
         initPlayer() {
 
             var player = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
-            player.height = this.tileSize*1.5;
-            player.width = this.tileSize*1.5;
+            player.height = this.tileSize * 1.5;
+            player.width = this.tileSize * 1.5;
             player.anchor.setTo(0.5, 0.5);
             player.animations.add('up', [18,19,20,21,22,23], 10, true);
             player.animations.add('down', [12,13,14,15,16,17], 10, true);
