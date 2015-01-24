@@ -40,6 +40,7 @@ module Octopussy {
             for(var i = 0; i < 14; i++) {
 
                 this.load.image('story_board_' + i, 'assets/story/lbl_story_' + i + '.png');
+                this.load.audio('story_audio_1','assets/story/intro.mp3');
             }
         }
 
@@ -65,11 +66,18 @@ module Octopussy {
             if (this.storyState >= this.storySteps.length) {
 
                 this.game.state.start('Level');
-            }
+            } 
             else {
 
+                if (this.storyState == 6) {
+
+                    var audio = this.add.audio('story_audio_1');
+                    audio.play('');
+                } 
                 this.changeBoard(this.storySteps[this.storyState]);
             }
+
+
         }
     }
 } 

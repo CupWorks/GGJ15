@@ -269,13 +269,13 @@ module Octopussy {
             if(this.keyMap[Direction.Left].isDown) {
                 this.leftPressed();
             }
-            if(this.keyMap[Direction.Up].isDown) {
+            else if(this.keyMap[Direction.Up].isDown) {
                 this.upPressed();
             }
-            if(this.keyMap[Direction.Right].isDown) {
+            else if(this.keyMap[Direction.Right].isDown) {
                 this.rightPressed();
             }
-            if(this.keyMap[Direction.Down].isDown) {
+            else if(this.keyMap[Direction.Down].isDown) {
                 this.downPressed();
             }
         }
