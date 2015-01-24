@@ -6,10 +6,6 @@
 			[
 				"*.js*",
 			],
-			"folder_exclude_patterns":
-			[
-				"node_modules"
-			],
 			"follow_symlinks": true,
 			"path": "."
 		}
