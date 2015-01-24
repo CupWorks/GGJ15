@@ -179,7 +179,7 @@ module Octopussy {
 
         initLevel() {
 
-            this.stage.setBackgroundColor('#C0C0C0');
+            this.stage.setBackgroundColor('#FFFFFF');
 
             //this.player = this.initPlayer();
             //this.initHud();
