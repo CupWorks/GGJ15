@@ -178,8 +178,14 @@ module Octopussy {
                     sprite.position.y = this.tileSize * (r - 2) + this.game.world.centerY - this.tileSize / 2;
                 }
             }
-
+            this.onAnimationCompletePlayDefault();
             this.isUpdating = false;
+        }
+
+        private onAnimationCompletePlayDefault() {
+            if(this.player){
+                this.player.animations.play('waiting');
+            }
         }
 
         bindKeys() {
@@ -218,11 +224,11 @@ module Octopussy {
             player.height = this.tileSize*1.5;
             player.width = this.tileSize*1.5;
             player.anchor.setTo(0.5, 0.5);
-            player.animations.add('up', [18,19,20,21,22,23], 10, false);
-            player.animations.add('down', [12,13,14,15,16,17], 10, false);
-            player.animations.add('waiting', [0,1,2], 10, false);
-            player.animations.add('right', [6,7,8,9,10,11], 10, false);
-            player.animations.add('left', [24,25,26,27,28,29], 10, false);
+            player.animations.add('up', [18,19,20,21,22,23], 10, true);
+            player.animations.add('down', [12,13,14,15,16,17], 10, true);
+            player.animations.add('waiting', [0,1,2], 5, true);
+            player.animations.add('right', [6,7,8,9,10,11], 10, true);
+            player.animations.add('left', [24,25,26,27,28,29], 10, true);
             player.animations.play('waiting');
 
             return player;
@@ -269,7 +275,7 @@ module Octopussy {
                 this.player.animations.play('left');
                 this.startUpdatePosition(Direction.Left);
             }
-        }  
+        }
 
         private rightPressed() {
 
