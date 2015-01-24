@@ -34,7 +34,7 @@ module Octopussy {
 
         preload() {
 
-            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 8);
+            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 16);
 
             this.load.image('hud_mask','assets/level/hud/mask_hud_main.png');
             this.load.image('hud_btn_left','assets/level/hud/btn_hud_left.png');
@@ -171,10 +171,6 @@ module Octopussy {
                             sprite.loadTexture('tiles', 3);
                         break;
 
-                        case '#':
-                            sprite.loadTexture('tiles', 6);
-                        break;
-
                         case '-':
                             sprite.loadTexture('tiles', 4);
                         break;
@@ -182,11 +178,45 @@ module Octopussy {
                         case '|':
                             sprite.loadTexture('tiles', 5);
                         break;
+						
+						case 'V':
+                        sprite.loadTexture('tiles', 6);
+                        break;
+						
+						case '^':
+                        sprite.loadTexture('tiles', 7);
+                        break;
 
+						case '<':
+                        sprite.loadTexture('tiles', 8);
+                        break;
+						
+						case '>':
+                        sprite.loadTexture('tiles', 9);
+                        break;
+						
+						case '+':
+                        sprite.loadTexture('tiles', 10);
+                        break;
+						
+						case 'M':
+                        sprite.loadTexture('tiles', 11);
+                        break;
+						
+						case '#':
+                        sprite.loadTexture('tiles', 12);
+                        break;
+						
                         case 'T':
+                            sprite.loadTexture('tiles', 13);
+                        break;
+						
                         case 'S':
+                        sprite.loadTexture('tiles', 14);
+                        break;
+						
                         case ' ':
-                            sprite.loadTexture('tiles', 6);
+                        sprite.loadTexture('tiles', 15);
                         break;
                     }
 
@@ -273,7 +303,9 @@ module Octopussy {
 
             if(symbol == '#' || symbol == '-' || symbol == '|' ||
                symbol == '1' || symbol == '2'|| symbol == '3'||
-               symbol == '4') {
+			   symbol == '4' || symbol == 'V'|| symbol == '^'||
+			   symbol == '<' || symbol == '>'|| symbol == '+'||
+               symbol == 'M') {
 
                 return false;
             }
