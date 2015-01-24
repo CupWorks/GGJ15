@@ -8,10 +8,19 @@ module.exports = function(grunt) {
         	fast: 'never'
       	},
       }
-    }
+    },
+    watch: {
+    scripts: {
+      files: ['*.ts'],
+      tasks: ['ts'],
+      options: {
+        spawn: false,
+      },
+    },
+  }
   });
 
-
+  grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-ts");
-  grunt.registerTask("default", ["ts"]);
+  grunt.registerTask("default", ["watch"]);
 };
