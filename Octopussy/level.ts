@@ -1,10 +1,14 @@
 ﻿/// <reference path="framework/fullscreenState.ts"/>
 
 module Octopussy {
+
+    export enum Direction {
+        Left, Up, Right, Down
+    }
+
     export class Level extends FullscreenState {
 
         private tileSize: number =  128;
-
         private levelData: string[] = 
         [
             '###########',
@@ -16,7 +20,6 @@ module Octopussy {
             '###########',
             '###########'
         ];
-
         private visibleTiles: Phaser.Sprite[][] = 
         [
             [null, null, null, null, null],
@@ -25,8 +28,10 @@ module Octopussy {
             [null, null, null, null, null],
             [null, null, null, null, null],
         ];
-
+        private isUpdating: boolean = false;
         private playerPosition: Phaser.Point = new Phaser.Point();
+
+        private keyMap : Phaser.Key[] = [null, null, null, null];
 
         player: Phaser.Sprite;
         levelMusic: Phaser.Sound;
@@ -47,9 +52,8 @@ module Octopussy {
 
             super.create();
 
-            this.createLevel();
-
             this.bindKeys();
+            this.createLevel();
             this.initLevel();
         }
 
@@ -78,16 +82,71 @@ module Octopussy {
                 }
             };
 
-            this.updatePosition(this.playerPosition); 
+            this.updateTilePositions();
         }
 
-        private updatePosition(position: Phaser.Point) {            
+        private getPositionChange(direction: Direction) : Phaser.Point {
+
+            var point = new Phaser.Point();
+
+            switch (direction) {
+                case Direction.Left:
+                    point.x = -1;
+                    break;
+
+                case Direction.Right:
+                    point.x = 1;
+                    break;
+
+                case Direction.Up:
+                    point.y = -1;
+                    break;
+
+                case Direction.Down:
+                    point.y = 1;
+                    break;                
+            }
+
+            return point;
+        }
+
+        private startUpdatePosition(direction: Direction) {
+
+            if(this.isUpdating == false) {
+
+                this.isUpdating = true;
+
+                var change = this.getPositionChange(direction);
+
+                this.playerPosition.x = this.playerPosition.x + change.x;
+                this.playerPosition.y = this.playerPosition.y + change.y;
+
+                var timer = this.game.time.create(true);
+                timer.add(1050, this.updateTilePositions, this);
+                timer.start();
+
+                for(var r = 0; r < 5; r++) {
+
+                    for(var c = 0; c < 5; c++) {
+
+                        var sprite = this.visibleTiles[c][r];
+
+                        var spriteX = sprite.position.x - change.x * this.tileSize;
+                        var spriteY = sprite.position.y - change.y * this.tileSize;
+
+                        var tween = this.add.tween(sprite).to({ x: spriteX, y: spriteY }, 1000, Phaser.Easing.Linear.None, true);
+                    }
+                }
+            }
+        }
+
+        private updateTilePositions() {  
 
             for(var r = 0; r < 5; r++) {
 
                 for(var c = 0; c < 5; c++) {
 
-                    var symbol = this.levelData[position.y + r - 2][position.x + c - 2];
+                    var symbol = this.levelData[this.playerPosition.y + r - 2][this.playerPosition.x + c - 2];
                     var sprite = this.visibleTiles[c][r];
 
                     switch (symbol) {
@@ -105,17 +164,17 @@ module Octopussy {
                     sprite.position.x = this.tileSize * (c - 2) + this.game.world.centerX - this.tileSize / 2;
                     sprite.position.y = this.tileSize * (r - 2) + this.game.world.centerY - this.tileSize / 2;
                 }
-            };
+            }
+
+            this.isUpdating = false;
         }
 
         bindKeys() {
 
-            this.game.input.keyboard.addKeyCapture([
-                Phaser.Keyboard.LEFT,
-                Phaser.Keyboard.RIGHT,
-                Phaser.Keyboard.UP,
-                Phaser.Keyboard.DOWN
-            ]);
+            this.keyMap[Direction.Left] = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+            this.keyMap[Direction.Up] = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+            this.keyMap[Direction.Right] = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+            this.keyMap[Direction.Down] = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         }
 
         initLevel() {
@@ -155,27 +214,26 @@ module Octopussy {
             return player;
         }
 
-        onCollusion() {
-
-            console.log('collusion');
-        }
-
         update() {
 
-
-            var downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-            downKey.onDown.add(this.downPressed, this);
-            var upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
-            upKey.onDown.add(this.upPressed, this);
-            var leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-            leftKey.onDown.add(this.leftPressed, this);
-            var rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-            rightKey.onDown.add(this.rightPressed, this);
+            if(this.keyMap[Direction.Left].isDown) {
+                this.leftPressed();
+            }
+            if(this.keyMap[Direction.Up].isDown) {
+                this.upPressed();
+            }
+            if(this.keyMap[Direction.Right].isDown) {
+                this.rightPressed();
+            }
+            if(this.keyMap[Direction.Down].isDown) {
+                this.downPressed();
+            }
         }
 
-        private canMove(x: number, y: number): boolean {
+        private canMove(direction: Direction): boolean {
 
-            var symbol = this.levelData[y][x];
+            var change = this.getPositionChange(direction);
+            var symbol = this.levelData[this.playerPosition.y + change.y][this.playerPosition.x + change.x];
 
             if(symbol == '#') {
 
@@ -187,37 +245,33 @@ module Octopussy {
 
         private leftPressed() {
 
-            if(this.canMove(this.playerPosition.x - 1, this.playerPosition.y)) {
+            if(this.canMove(Direction.Left)) {
 
-                this.playerPosition.x = this.playerPosition.x - 1;
-                this.updatePosition(this.playerPosition);
+                this.startUpdatePosition(Direction.Left);
             }
         }  
 
         private rightPressed() {
 
-            if(this.canMove(this.playerPosition.x + 1, this.playerPosition.y)) {
+            if(this.canMove(Direction.Right)) {
 
-                this.playerPosition.x = this.playerPosition.x + 1;
-                this.updatePosition(this.playerPosition);
+                this.startUpdatePosition(Direction.Right);
             }
-        }  
+        }   
 
         private upPressed() {
 
-            if(this.canMove(this.playerPosition.x , this.playerPosition.y - 1)) {
+            if(this.canMove(Direction.Up)) {
 
-                this.playerPosition.y = this.playerPosition.y - 1;
-                this.updatePosition(this.playerPosition);
+                this.startUpdatePosition(Direction.Up);
             }
         }  
 
         private downPressed() {
 
-            if(this.canMove(this.playerPosition.x , this.playerPosition.y + 1)) {
+            if(this.canMove(Direction.Down)) {
 
-                this.playerPosition.y = this.playerPosition.y + 1;
-                this.updatePosition(this.playerPosition);
+                this.startUpdatePosition(Direction.Down);
             }
         }   
     }
