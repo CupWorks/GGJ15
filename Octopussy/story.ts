@@ -30,7 +30,7 @@ module Octopussy {
                 new StoryStep(3, 'story_board_10'),
                 new StoryStep(5, 'story_board_11'),
                 new StoryStep(3, 'story_board_12'),
-                new StoryStep(3, 'story_board_13'),
+                new StoryStep(3, 'story_board_13')
         ];
         private storyState: number = 0;
         private board: Phaser.Sprite;
@@ -41,13 +41,12 @@ module Octopussy {
 
                 this.load.image('story_board_' + i, 'assets/story/lbl_story_' + i + '.png');
             }
-
         }
 
         create() {
             super.create();
 
-            this.board = this.add.sprite(0, 0, this.storySteps[this.storyState].board);
+            this.board = this.add.sprite(0, 0, null);
             this.changeBoard(this.storySteps[this.storyState]);
         }
 
@@ -62,13 +61,15 @@ module Octopussy {
 
         private next() {
 
-            if (this.storyState == this.storySteps.length) {
+            this.storyState++;
+            if (this.storyState >= this.storySteps.length) {
 
                 this.game.state.start('Level');
             }
+            else {
 
-            this.storyState++;
-            this.changeBoard(this.storySteps[this.storyState]);
+                this.changeBoard(this.storySteps[this.storyState]);
+            }
         }
     }
 } 

@@ -9,7 +9,7 @@
 
             this.stage.disableVisibilityChange = true;
 
-            this.game.state.start('Story', true, false);
+            this.game.state.start('MainMenu', true, false);
         }
     }
 
