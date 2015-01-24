@@ -11,14 +11,14 @@ module Octopussy {
         private tileSize: number =  128;
         private levelData: string[] = 
         [
-            '###########',
-            '###########',
-            '##      S##',
-            '## #### ###',
-            '## #### ###',
-            '##      ###',
-            '###########',
-            '###########'
+            '##############',
+            '##############',
+            '##      S## ##',
+            '##T#### ### ##',
+            '##T#### ### ##',
+            '##          ##',
+            '##############',
+            '##############'
         ];
         private visibleTiles: Phaser.Sprite[][] = 
         [
@@ -31,7 +31,9 @@ module Octopussy {
         private isUpdating: boolean = false;
         private playerPosition: Phaser.Point = new Phaser.Point();
 
-        private keyMap : Phaser.Key[] = [null, null, null, null];
+        private keyMap: Phaser.Key[] = [null, null, null, null];
+
+        private moveSpeed: number = 5;
 
         player: Phaser.Sprite;
         levelMusic: Phaser.Sound;
@@ -130,7 +132,7 @@ module Octopussy {
                 this.playerPosition.y = this.playerPosition.y + change.y;
 
                 var timer = this.game.time.create(true);
-                timer.add(1050, this.updateTilePositions, this);
+                timer.add((1000 / this.moveSpeed) + 50, this.updateTilePositions, this);
                 timer.start();
 
                 for(var r = 0; r < 5; r++) {
@@ -142,13 +144,15 @@ module Octopussy {
                         var spriteX = sprite.position.x - change.x * this.tileSize;
                         var spriteY = sprite.position.y - change.y * this.tileSize;
 
-                        var tween = this.add.tween(sprite).to({ x: spriteX, y: spriteY }, 1000, Phaser.Easing.Linear.None, true);
+                        var tween = this.add.tween(sprite).to({ x: spriteX, y: spriteY }, 1000 / this.moveSpeed, Phaser.Easing.Linear.None, true);
                     }
                 }
             }
         }
 
         private updateTilePositions() {  
+
+            this.positionEvent(this.levelData[this.playerPosition.y][this.playerPosition.x]);
 
             for(var r = 0; r < 5; r++) {
 
@@ -163,6 +167,7 @@ module Octopussy {
                             sprite.loadTexture('tile_block', 0);
                         break;
 
+                        case 'T':
                         case 'S':
                         case ' ':
                             sprite.loadTexture('tile_way', 0);
@@ -250,6 +255,11 @@ module Octopussy {
             }
 
             return true;
+        }
+
+        private positionEvent(symbol: string) {
+
+            console.log(symbol);
         }
 
         private leftPressed() {
