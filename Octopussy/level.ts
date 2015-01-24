@@ -36,6 +36,10 @@ module Octopussy {
 
             this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 16);
 
+            this.load.image('background', 'assets/level/img_background.jpg');
+            this.load.image('background_fog', 'assets/level/img_background_fog.png');
+            this.load.image('background_sun', 'assets/level/img_background_sun2.png');
+
             this.load.image('hud_mask','assets/level/hud/mask_hud_main.png');
             this.load.image('hud_btn_left','assets/level/hud/btn_hud_left.png');
             this.load.image('hud_btn_right','assets/level/hud/btn_hud_right.png');
@@ -53,7 +57,6 @@ module Octopussy {
             super.create();
 
             this.bindKeys();
-            this.createLevel();
             this.initLevel();
         }
 
@@ -244,9 +247,20 @@ module Octopussy {
 
         initLevel() {
 
-            this.stage.setBackgroundColor('#FFFFFF');
+            this.add.sprite(0, 0, 'background');
+            var backgroundFog = this.add.sprite(0, 0, 'background_fog');
+            this.add.tween(backgroundFog).to({ x: 300 }, 1500, Phaser.Easing.Linear.None)
+            .to({ x: 0 }, 1500, Phaser.Easing.Linear.None)
+            .loop().start();
 
+            this.createLevel();
             this.player = this.initPlayer();
+
+            var backgroundSun = this.add.sprite(-400, 0, 'background_sun');
+            this.add.tween(backgroundSun).to({ x: 400 }, 8000, Phaser.Easing.Linear.None)
+            .to({ x: -200 }, 8000, Phaser.Easing.Linear.None)
+            .loop().start();
+
             this.initHud();
             //this.initSound();
 
@@ -260,8 +274,8 @@ module Octopussy {
 
         initHud() {
 
-            //this.hud = this.add.sprite(0, 0, 'hud_mask');
-            //this.hud.fixedToCamera = true;
+            this.hud = this.add.sprite(0, 0, 'hud_mask');
+            this.hud.fixedToCamera = true;
         }
 
         initPlayer() {
@@ -285,13 +299,13 @@ module Octopussy {
             if(this.keyMap[Direction.Left].isDown) {
                 this.leftPressed();
             }
-            if(this.keyMap[Direction.Up].isDown) {
+            else if(this.keyMap[Direction.Up].isDown) {
                 this.upPressed();
             }
-            if(this.keyMap[Direction.Right].isDown) {
+            else if(this.keyMap[Direction.Right].isDown) {
                 this.rightPressed();
             }
-            if(this.keyMap[Direction.Down].isDown) {
+            else if(this.keyMap[Direction.Down].isDown) {
                 this.downPressed();
             }
         }
