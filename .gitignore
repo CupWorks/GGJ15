@@ -325,5 +325,3 @@ npm-debug.log
 *.map
 *.js
 */.tscache/*
-
-Octopussy/levelData.ts
