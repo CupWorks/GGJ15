@@ -1,45 +1,74 @@
 ﻿/// <reference path="framework/fullscreenState.ts"/>
 
 module Octopussy {
+    export class StoryStep {
+
+        constructor(time: number, board: string) {
+            
+            this.time = time;
+            this.board = board;
+        }
+
+        public time: number = 0;
+        public board: string = '';
+    }
+
     export class Story extends FullscreenState {
 
-        private storyText: string[] = 
+        private storySteps: StoryStep[] = 
         [
-                'Hier könnte ihre Werbung stehen!',
-                'Echt jetzt!',
-                'Dann eben nicht!',
-                'Fuuuuuu!!!'
+                new StoryStep(3, 'story_board_0'),
+                new StoryStep(2, 'story_board_1'),
+                new StoryStep(2, 'story_board_2'),
+                new StoryStep(2, 'story_board_3'),
+                new StoryStep(2, 'story_board_4'),
+                new StoryStep(2, 'story_board_5'),
+                new StoryStep(3, 'story_board_6'),
+                new StoryStep(3, 'story_board_7'),
+                new StoryStep(3, 'story_board_8'),
+                new StoryStep(3, 'story_board_9'),
+                new StoryStep(3, 'story_board_10'),
+                new StoryStep(2, 'story_board_11'),
+                new StoryStep(2, 'story_board_12'),
+                new StoryStep(2, 'story_board_13'),
         ];
         private storyState: number = 0;
+        private board: Phaser.Sprite;
 
-        private textElement: Phaser.Text;
+        preload() {
+
+            for(var i = 0; i < 14; i++) {
+
+                this.load.image('story_board_' + i, 'assets/story/lbl_story_' + i + '.png');
+            }
+
+        }
 
         create() {
             super.create();
 
-            this.stage.setBackgroundColor('#44FF10');
-
-            var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
-            this.textElement = this.add.text(this.game.world.centerX, this.game.world.centerY, "", style);
-            this.input.onDown.add(this.next, this);
+            this.board = this.add.sprite(0, 0, this.storySteps[this.storyState].board);
+            this.changeBoard(this.storySteps[this.storyState]);
         }
 
-        private changeText(text: string) {
+        private changeBoard(step: StoryStep) {
 
-            this.textElement.text = text;
-            this.textElement.anchor.x = Math.round(this.textElement.width * 0.5) / this.textElement.width;
-            this.textElement.anchor.y = Math.round(this.textElement.height * 0.5) / this.textElement.height;
-        } 
+            this.board.loadTexture(step.board, 0);
+
+            var timer = this.game.time.create(true);
+            timer.add(step.time * 1000, this.next, this);
+            timer.start();
+        }
 
         private next() {
 
-            if (this.storyState == this.storyText.length) {
+            if (this.storyState == this.storySteps.length) {
 
                 this.game.state.start('Level');
             }
 
-            this.changeText(this.storyText[this.storyState]);
             this.storyState++;
+            this.changeBoard(this.storySteps[this.storyState]);
         }
     }
 } 

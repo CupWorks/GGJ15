@@ -230,8 +230,8 @@ module Octopussy {
 
         initHud() {
 
-            //this.hud = this.add.sprite(0, 0, 'hud_mask');
-            //this.hud.fixedToCamera = true;
+            this.hud = this.add.sprite(0, 0, 'hud_mask');
+            this.hud.fixedToCamera = true;
         }
 
         initPlayer() {
