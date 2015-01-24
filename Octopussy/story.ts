@@ -23,14 +23,14 @@ module Octopussy {
                 new StoryStep(2, 'story_board_3'),
                 new StoryStep(2, 'story_board_4'),
                 new StoryStep(2, 'story_board_5'),
-                new StoryStep(3, 'story_board_6'),
-                new StoryStep(3, 'story_board_7'),
+                new StoryStep(6, 'story_board_6'),
+                new StoryStep(4, 'story_board_7'),
                 new StoryStep(3, 'story_board_8'),
                 new StoryStep(3, 'story_board_9'),
                 new StoryStep(3, 'story_board_10'),
-                new StoryStep(2, 'story_board_11'),
-                new StoryStep(2, 'story_board_12'),
-                new StoryStep(2, 'story_board_13'),
+                new StoryStep(5, 'story_board_11'),
+                new StoryStep(3, 'story_board_12'),
+                new StoryStep(3, 'story_board_13'),
         ];
         private storyState: number = 0;
         private board: Phaser.Sprite;
