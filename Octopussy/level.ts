@@ -10,7 +10,7 @@ module Octopussy {
         collusion:any;
 
         preload() {
-            this.load.image('level1', 'assets/level1/level_test_bg_512.png');
+            this.load.image('level1', 'assets/level1/level_test.png');
             this.load.image('hud','assets/level1/interface_mock_1.png');
             this.load.tilemap('level1map', 'assets/level1/level_test.json', null, Phaser.Tilemap.TILED_JSON);
             this.load.spritesheet('player', 'assets/level1/Sprite_2500x500er.png', 500, 500);
@@ -36,15 +36,16 @@ module Octopussy {
         initLevel() {
             this.stage.setBackgroundColor('#000000');
             var map = this.add.tilemap('level1map');
-            map.addTilesetImage('level_test_bg_512', 'level1');
-            this.layer = map.createLayer('Kachelebene 1');
+            map.addTilesetImage('level_test', 'level1');
+            console.log('map',map);
+            this.collusion = map.createLayer('Background');
+            this.layer = map.createLayer('Allowed');
             this.layer.resizeWorld();
-            this.collusion = map.createLayer('Kachelebene 2');
-            this.collusion.enableBody = true;
-            this.physics.arcade.enable(this.collusion);
             this.collusion.resizeWorld();
-            this.game.camera.x+=500;
-            this.game.camera.y+=500;
+            this.physics.arcade.enable(this.collusion);
+            this.collusion.enableBody = true;
+            this.game.camera.x+=1000;
+            this.game.camera.y+=600;
             this.player = this.initPlayer();
             this.initHud();
             this.initSound();
@@ -77,7 +78,10 @@ module Octopussy {
         }
 
         update() {
-            this.physics.arcade.collide(this.player, this.collusion);
+            this.physics.arcade.collide(this.player, this.collusion,function(){
+                console.log('collusion');
+            });
+
             if (this.input.keyboard.isDown(Phaser.Keyboard.UP)) {
                 this.camera.y -= 4;
                 this.player.animations.play('up');
