@@ -101,7 +101,7 @@ module Octopussy {
             this.storyState = 0;
 
             if(this.sound2_long){
-                this.sound2_long.fadeOut(1000);
+                this.sound2_long.stop();
             }
         }
     }
