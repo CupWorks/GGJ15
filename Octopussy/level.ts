@@ -415,10 +415,8 @@ module Octopussy {
                 this.keyMap[Direction.Up].isUp &&
                 this.keyMap[Direction.Right].isUp &&
                 this.keyMap[Direction.Left].isUp) {
-
+                
                 this.setInputActive();
-            }
-            else {
                 this.sound_swim.loop = false;
             }
 
