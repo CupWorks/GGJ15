@@ -9,7 +9,7 @@ module Octopussy {
 
     export class Level extends FullscreenState {
 
-        private tileSize: number =  128;
+        private tileSize: number =  180;
         private levelData: LevelData = new LevelData();
         private currentLevel: number = 0;
         private currentLevelData: string[] = this.levelData.get(this.currentLevel);
@@ -27,12 +27,14 @@ module Octopussy {
         private keyMap: Phaser.Key[] = [null, null, null, null];
         private moveSpeed: number = 1;
         private player: Phaser.Sprite;
+        private messageBox: Phaser.Sprite;
         private levelMusic: Phaser.Sound;
         private sound_swim: Phaser.Sound;
         private sound_death: Phaser.Sound;
         private sound_trap: Phaser.Sound;
         private sound_friend_collect: Phaser.Sound;
         private sound_friend_lost: Phaser.Sound;
+        private inputActive: boolean = true;
 
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
@@ -117,7 +119,7 @@ module Octopussy {
                 for(var c = 0; c < 5; c++) {
 
                     var sprite = this.add.sprite(0, 0, 'tiles');
-                    sprite.scale.setTo(0.25, 0.25);
+                    sprite.scale.setTo(this.tileSize / 512, this.tileSize / 512);
                     this.visibleTiles[r][c] = sprite;
                 }
             };
@@ -215,56 +217,60 @@ module Octopussy {
                         case '|':
                             sprite.loadTexture('tiles', 5);
                         break;
-						
-						case 'V':
+                        
+                        case 'V':
                             sprite.loadTexture('tiles', 6);
                         break;
-						
-						case '^':
+                        
+                        case '^':
                             sprite.loadTexture('tiles', 7);
                         break;
 
-						case '<':
+                        case '<':
                             sprite.loadTexture('tiles', 8);
                         break;
-						
-						case '>':
+                        
+                        case '>':
                             sprite.loadTexture('tiles', 9);
                         break;
-						
-						case '+':
+                        
+                        case '+':
                             sprite.loadTexture('tiles', 10);
                         break;
-						
-						case 'T':
+                        
+                        case 'T':
                             sprite.loadTexture('tiles', 11);
                         break;
-						
-						case 'R':
+                        
+                        case 'R':
                             sprite.loadTexture('tiles', 12);
                         break;
-						
-						case 'L':
+                        
+                        case 'L':
                             sprite.loadTexture('tiles', 13);
                         break;
-						
-						case 'D':
+                        
+                        case 'D':
                             sprite.loadTexture('tiles', 14);
                         break;
-						
-						case 'U':
+                        
+                        case 'U':
                             sprite.loadTexture('tiles', 15);
                         break;
-						
+                        
                         case 'S':
                             sprite.loadTexture('tiles', 11);
                         break;
-						
+                        
+                        case 'X':
+                            sprite.loadTexture('tiles', 11);
+                        break;
+
                         case ' ':
                             sprite.loadTexture('tiles', 11);
                         break;
-						
-						case '#':
+                        
+                        case '#':
                             sprite.loadTexture('tiles', 11);
                         break;
                     }
@@ -282,7 +288,7 @@ module Octopussy {
             this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
 
             if(this.player) {
-                
+
                 this.player.animations.play('waiting');
                 this.updateArrows();
             }
@@ -302,22 +308,17 @@ module Octopussy {
             }
         }
 
-        private isEven(imput: number) : boolean {
-
-            return imput % 2 == 0;
-        }
-
-        private isOdd(imput: number) : boolean {
-
-            return imput % 2 != 0;
-        }
-
         bindKeys() {
 
             this.keyMap[Direction.Left] = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
             this.keyMap[Direction.Up] = this.input.keyboard.addKey(Phaser.Keyboard.UP);
             this.keyMap[Direction.Right] = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
             this.keyMap[Direction.Down] = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        }
+
+        private setInputActive() {
+
+            this.inputActive = true;
         }
 
         initLevel() {
@@ -337,18 +338,27 @@ module Octopussy {
             .loop().start();
 
             this.initHud();
-            this.initSound();
+            //this.initSound();
 
         }
 
         initSound() {
+
             this.levelMusic = this.add.audio('level_background_music', 1, true);
             this.sound_swim = this.add.audio('sound_swim', 1, true);
+<<<<<<< HEAD
             this.sound_death= this.add.audio('sound_death');
             this.sound_trap= this.add.audio('sound_trap');
             this.sound_friend_collect= this.add.audio('sound_friend_collect');
             this.sound_friend_lost= this.add.audio('sound_friend_lost');
             this.levelMusic.play('', 0, 0.5, true);
+=======
+            this.sound_death = this.add.audio('sound_death');
+            this.sound_trap = this.add.audio('sound_trap');
+            this.sound_friend_collect = this.add.audio('sound_friend_collect');
+            this.sound_friend_lost = this.add.audio('sound_friend_lost');
+            this.levelMusic.play('', 0, 0.7, true);
+>>>>>>> FETCH_HEAD
         }
 
         initHud() {
@@ -374,6 +384,8 @@ module Octopussy {
                 this.lifeMap[i].scale.setTo(0.37 , 0.37);
                 this.lifeMap[i].alpha = 0.3;
             }
+
+            this.messageBox = this.add.sprite(80, 100);
 
         }
 
@@ -406,13 +418,22 @@ module Octopussy {
             }
             else if(this.keyMap[Direction.Down].isDown) {
                 this.downPressed();
-            } else {
+            }
+            else if(this.keyMap[Direction.Down].isUp &&
+                this.keyMap[Direction.Up].isUp &&
+                this.keyMap[Direction.Right].isUp &&
+                this.keyMap[Direction.Left].isUp) {
+
+                this.setInputActive();
+            }
+            else {
                 this.sound_swim.loop = false;
             }
 
             if(this.keyMap[Direction.Right].justDown){
                 this.sound_swim.play('',0,1,true);
             }
+
             if(this.keyMap[Direction.Left].justDown){
                 this.sound_swim.play('',0,1,true);
             }
@@ -422,7 +443,6 @@ module Octopussy {
             if(this.keyMap[Direction.Down].justDown){
                 this.sound_swim.play('',0,1,true);
             }
-
         }
 
         private canMove(direction: Direction): boolean {
@@ -432,9 +452,9 @@ module Octopussy {
 
             if(symbol == '#' || symbol == '-' || symbol == '|' ||
                symbol == '1' || symbol == '2'|| symbol == '3'||
-			   symbol == '4' || symbol == 'V'|| symbol == '^'||
-			   symbol == '<' || symbol == '>'|| symbol == '+'||
-			   symbol == 'M' || symbol == 'R'|| symbol == 'L'||
+               symbol == '4' || symbol == 'V'|| symbol == '^'||
+               symbol == '<' || symbol == '>'|| symbol == '+'||
+               symbol == 'M' || symbol == 'R'|| symbol == 'L'||
                symbol == 'D' || symbol == 'U') {
 
                 return false;
@@ -460,8 +480,25 @@ module Octopussy {
             }
         }
 
+        private showMessage(imageKey: string, fade: boolean) {
+
+            this.messageBox.loadTexture(imageKey, 0);
+            this.messageBox.alpha = 1;
+            this.add.tween(this.messageBox).to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None)
+            .to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None).start();
+
+            this.inputActive = false;
+        }
+
         private displayQuestion() {
 
+            if(this.lifes == 0) {
+
+                this.showMessage('hud_cross_0', true);
+            } else {
+
+                this.showMessage('hud_cross_1', true);
+            }
 
         }
 
@@ -472,11 +509,15 @@ module Octopussy {
             var line = this.currentLevelData[this.playerPosition.y];
             line = line.substr(0, this.playerPosition.x) +  ' ' + line.substr(this.playerPosition.x + 1);
             this.currentLevelData[this.playerPosition.y] = line;
+            this.showMessage('hud_dwarf_0', false);
+            var timer = this.game.time.create(true);
+            timer.add(2050, function() { this.showMessage('hud_dwarf_1', true); }, this);
+            timer.start();
         }
 
         private leftPressed() {
 
-            if(this.canMove(Direction.Left)) {
+            if(this.canMove(Direction.Left) && this.inputActive) {
 
                 this.player.animations.play('left');
                 this.startUpdatePosition(Direction.Left);
@@ -485,7 +526,7 @@ module Octopussy {
 
         private rightPressed() {
 
-            if(this.canMove(Direction.Right)) {
+            if(this.canMove(Direction.Right) && this.inputActive) {
 
                 this.player.animations.play('right');
                 this.startUpdatePosition(Direction.Right);
@@ -494,7 +535,7 @@ module Octopussy {
 
         private upPressed() {
 
-            if(this.canMove(Direction.Up)) {
+            if(this.canMove(Direction.Up) && this.inputActive) {
 
                 this.player.animations.play('up');
                 this.startUpdatePosition(Direction.Up);
@@ -503,7 +544,7 @@ module Octopussy {
 
         private downPressed() {
 
-            if(this.canMove(Direction.Down)) {
+            if(this.canMove(Direction.Down) && this.inputActive) {
 
                 this.player.animations.play('down');
                 this.startUpdatePosition(Direction.Down);
