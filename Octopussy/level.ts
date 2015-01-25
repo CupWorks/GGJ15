@@ -295,6 +295,7 @@ module Octopussy {
             if(this.player) {
 
                 this.player.animations.play('waiting');
+                //this.player.animations.play('player_death');
                 this.updateArrows();
             }
         }
@@ -397,8 +398,8 @@ module Octopussy {
             player.animations.add('waiting', [0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,], 15, true);
             player.animations.add('right', [8,8,8,8,8,9,10,11,11,10,9,9], 15, true);
             player.animations.add('left', [27,27,27,27,27,26,25,24,24,25,26,26], 15, true);
-            player.animations.add('player_death', [30,30,31,31,32,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, true);
-            player.animations.add('clone_rescued', [3,3,3,3,4,4,4,4,5,5,5,5,4,4,4,4,], 15, true);
+            player.animations.add('player_death', [30,31,30,31,32,31,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, false);
+            player.animations.add('clone_rescued', [3,3,3,3,4,4,4,4,5,5,5,5,4,4,4,4,], 15, false);
             return player;
         }
 
@@ -420,7 +421,7 @@ module Octopussy {
                 this.keyMap[Direction.Up].isUp &&
                 this.keyMap[Direction.Right].isUp &&
                 this.keyMap[Direction.Left].isUp) {
-                
+
                 this.setInputActive();
                 this.sound_swim.loop = false;
             }
