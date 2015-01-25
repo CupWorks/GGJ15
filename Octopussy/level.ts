@@ -644,6 +644,7 @@ module Octopussy {
 
         shutdown() {
 
+            this.hold = false;
             this.currentLevelData = this.levelData.get(this.currentLevel);
             this.lifes = 0;
             this.possibleLifes = 6;
