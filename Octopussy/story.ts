@@ -100,7 +100,9 @@ module Octopussy {
         }
 
         shutdown() {
-            this.sound2_long.stop();
+            if(this.sound2_long){
+                this.sound2_long.stop();
+            }
         }
     }
 } 
