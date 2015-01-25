@@ -561,6 +561,6 @@ module Octopussy {
                 this.player.animations.play('down');
                 this.startUpdatePosition(Direction.Down);
             }
-        }   
+        } 
     }
 }

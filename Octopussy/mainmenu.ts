@@ -8,7 +8,7 @@ module Octopussy {
         preload() {
 
             this.load.image('mainmenu_background', 'assets/mainmenu/img_background.png');
-            this.load.image('mainmenu_title', 'assets/mainmenu/img_title_0.png');
+            this.load.spritesheet('mainmenu_title', 'assets/mainmenu/img_title.png', 600, 310, 5);
             this.load.audio('sound_title','assets/mainmenu/sounds/title.wav');
 
 
@@ -20,7 +20,7 @@ module Octopussy {
             this.sound_title = this.add.audio('sound_title', 1, true);
 
             this.add.sprite(0, 0, 'mainmenu_background');
-            this.add.sprite(0, 0, 'mainmenu_title');
+            this.add.sprite(this.game.world.centerX - 300, this.game.world.centerY - 230, 'mainmenu_title');
             this.sound_title.play('', 0, 1, true);
 
             this.game.input.keyboard.onDownCallback = function(e: KeyboardEvent) {
