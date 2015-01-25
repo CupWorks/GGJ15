@@ -43,6 +43,8 @@ module Octopussy {
                 this.load.audio('story_audio_0','assets/story/newspaper.mp3');
                 this.load.audio('story_audio_1','assets/story/intro.mp3');
             }
+
+            this.storyState = 0;
         }
 
         create() {
