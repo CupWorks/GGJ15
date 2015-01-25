@@ -270,18 +270,28 @@ module Octopussy {
                             sprite.loadTexture('tiles', 15);
                         break;
                         
-                        case 'S':                       
+                        case 'S': 
+                            sprite.loadTexture('tiles', 16);
+                        break;
+
+                        case 'I': 
+                            sprite.loadTexture('tiles', 17);
+                        break; 
+
+                        case 'N': 
+                            sprite.loadTexture('tiles', 18);
+                        break; 
+
+                        case 'E': 
+                            sprite.loadTexture('tiles', 19);
+                        break;   
+
                         case 'X':
                         case ' ':                        
                         case '#':
                         case 'B':
                         case 'T':
-                        case 'E':
                             sprite.loadTexture('tiles', 11);
-
-                        case 'S':                       
-                        case 'E':
-                            sprite.loadTexture('tiles', 16);
 
                         break;
                     }
