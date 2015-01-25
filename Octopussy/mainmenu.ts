@@ -27,7 +27,7 @@ module Octopussy {
 
             this.game.input.keyboard.onDownCallback = function(e: KeyboardEvent) {
 
-                if(e.keyCode != Phaser.Keyboard.C && e.keyCode != Phaser.Keyboard.F1) {
+                if(e.keyCode != Phaser.Keyboard.C) {
 
                     this.game.input.keyboard.onDownCallback = null;
                     this.game.state.start('Story');

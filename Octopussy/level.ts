@@ -44,7 +44,7 @@ module Octopussy {
 
         preload() {
 
-            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 20);
+            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 24);
 
             this.load.image('background', 'assets/level/img_background_blue.jpg');
             this.load.image('background_fog', 'assets/level/img_background_fog.png');
@@ -215,7 +215,7 @@ module Octopussy {
             }
         }
 
-        private updateTilePositions() {  
+        private updateTilePositions(updatePlayer: boolean = true) {  
 
             for(var r = 0; r < 5; r++) {
 
@@ -304,12 +304,15 @@ module Octopussy {
 
                         case 'E': 
                             sprite.loadTexture('tiles', 19);
-                        break;   
+                        break;  
+
+                        case 'B': 
+                            sprite.loadTexture('tiles', 20);
+                        break;
 
                         case 'X':
                         case ' ':                        
                         case '#':
-                        case 'B':
                         case 'T':
                             sprite.loadTexture('tiles', 11);
 
@@ -321,7 +324,10 @@ module Octopussy {
                     sprite.position.y = this.tileSize * (r - 2) + this.game.world.centerY - this.tileSize / 2;
                 }
             }
-            this.updatePlayer();
+
+            if(updatePlayer) {
+                this.updatePlayer();
+            }
             this.isUpdating = false;
         }
 
@@ -589,11 +595,14 @@ module Octopussy {
 
             this.sound_friend_collect.play();
             this.player.animations.play('clone_rescued');
+
             this.lifeMap[this.lifes].alpha = 1;
             this.lifes = this.lifes + 1;
             var line = this.currentLevelData[this.playerPosition.y];
             line = line.substr(0, this.playerPosition.x) +  ' ' + line.substr(this.playerPosition.x + 1);
             this.currentLevelData[this.playerPosition.y] = line;
+            this.updateTilePositions(false);
+
             this.showMessage('hud_dwarf_0', false);
             var timer = this.game.time.create(true);
             timer.add(2050, function() { this.showMessage('hud_dwarf_1', true); }, this);
