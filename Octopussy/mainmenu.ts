@@ -19,7 +19,10 @@ module Octopussy {
             this.sound_title = this.add.audio('sound_title', 1, true);
 
             this.add.sprite(0, 0, 'mainmenu_background');
-            this.add.sprite(this.game.world.centerX - 300, this.game.world.centerY - 230, 'mainmenu_title');
+            var mainmenu_title = this.add.sprite(this.game.world.centerX - 300, this.game.world.centerY - 230, 'mainmenu_title');
+            mainmenu_title.animations.add('intro', [0,1,2,3,4], 10, true);
+            mainmenu_title.animations.play('intro');
+
             this.sound_title.play('', 0, 1, true);
 
             this.game.input.keyboard.onDownCallback = function(e: KeyboardEvent) {
