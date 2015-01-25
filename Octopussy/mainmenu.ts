@@ -10,8 +10,7 @@ module Octopussy {
             this.load.image('mainmenu_background', 'assets/mainmenu/img_background.png');
             this.load.spritesheet('mainmenu_title', 'assets/mainmenu/img_title.png', 600, 310, 5);
             this.load.audio('sound_title','assets/mainmenu/sounds/title.wav');
-
-
+            
         }
 
         create() {

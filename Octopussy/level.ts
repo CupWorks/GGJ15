@@ -290,14 +290,13 @@ module Octopussy {
 
         private updatePlayer() {
 
-            this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
-
             if(this.player) {
 
                 this.player.animations.play('waiting');
-                //this.player.animations.play('player_death');
                 this.updateArrows();
             }
+
+            this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
         }
 
         private updateArrows() {
@@ -472,16 +471,44 @@ module Octopussy {
                     break;
 
                 case 'E':
-                    this.endLevel();
+                    this.won();
                     break;
-                
-                default:
-                    // code...
+
+                case 'T':
+                    this.trap();
                     break;
             }
         }
 
-        private endLevel() {
+        private trap() {
+
+            this.player.animations.play('player_death');
+
+            if(this.lifes == 0) {
+
+                this.gameOver();
+            }
+            else {
+
+                this.showMessage('hud_trap', true);
+                this.lifes = this.lifes - 1;
+                this.lifeMap[this.lifes].alpha = 0.3;
+                var timer = this.game.time.create(true);
+                timer.add(3000, function() { this.player.animations.play('waiting'); }, this);
+                timer.start();
+            }
+        }
+
+        private gameOver() {
+
+            this.showMessage('hud_gameover_0', false);
+            var timer = this.game.time.create(true);
+            timer.add(3000, function() { this.showMessage('hud_gameover_1', true); }, this);
+            timer.add(5000, function() { this.game.state.start('MainMenu'); }, this);
+            timer.start();
+        }
+
+        private won() {
 
             this.showMessage('hud_won_' + this.lifes, false);
             var timer = this.game.time.create(true);
