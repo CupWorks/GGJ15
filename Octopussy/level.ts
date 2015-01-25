@@ -488,13 +488,16 @@ module Octopussy {
         private trap() {
 
             this.player.animations.play('player_death');
+            this.sound_death.play();
 
             if(this.lifes == 0) {
 
+                this.sound_trap.play();
                 this.gameOver();
             }
             else {
 
+                this.sound_friend_lost.play();
                 this.showMessage('hud_trap', true);
                 this.lifes = this.lifes - 1;
                 this.lifeMap[this.lifes].alpha = 0.3;
