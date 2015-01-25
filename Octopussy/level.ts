@@ -85,11 +85,11 @@ module Octopussy {
             this.load.audio('sound_trap','assets/level/sounds/trap.mp3');
             this.load.audio('sound_friend_collect','assets/level/sounds/friend_collected.mp3');
             this.load.audio('sound_friend_lost','assets/level/sounds/friend_lost.mp3');
-
-            this.currentLevelData = this.levelData.get(this.currentLevel);
         }
 
         create() {
+
+            this.currentLevelData = this.levelData.get(this.currentLevel);
 
             super.create();
 
