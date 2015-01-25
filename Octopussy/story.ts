@@ -35,6 +35,8 @@ module Octopussy {
         private storyState: number = 0;
         private board: Phaser.Sprite;
 
+        private sound2_long: Phaser.Sound;
+
         preload() {
 
             for(var i = 0; i < 14; i++) {
@@ -88,13 +90,17 @@ module Octopussy {
                 }
                 if (this.storyState == 6) {
 
-                    var audio = this.add.audio('story_audio_1');
-                    audio.play('');
+                    this.sound2_long = this.add.audio('story_audio_1');
+                    this.sound2_long.play('');
                 } 
                 this.changeBoard(this.storySteps[this.storyState]);
             }
 
 
+        }
+
+        shutdown() {
+            this.sound2_long.stop();
         }
     }
 } 
