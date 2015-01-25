@@ -334,7 +334,6 @@ module Octopussy {
         private updatePlayer() {
 
             if(this.player) {
-                this.sound_swim.stop();
                 this.player.animations.play('waiting');
                 this.updateArrows();
             }
@@ -466,9 +465,27 @@ module Octopussy {
                     this.keyMap[Direction.Right].isUp &&
                     this.keyMap[Direction.Left].isUp) {
 
+                    this.sound_swim.loop = false;
                     this.setInputActive();
                 }
+
+                if(this.keyMap[Direction.Right].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
+
+                if(this.keyMap[Direction.Left].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
+                if(this.keyMap[Direction.Up].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
+                if(this.keyMap[Direction.Down].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
             }
+
+
+
         }
 
         private canMove(direction: Direction): boolean {
@@ -604,7 +621,6 @@ module Octopussy {
 
             if(this.canMove(Direction.Left) && this.inputActive) {
 
-                this.sound_swim.play('',0, 1, true);
                 this.player.animations.play('left');
                 this.startUpdatePosition(Direction.Left);
             }
@@ -614,7 +630,6 @@ module Octopussy {
 
             if(this.canMove(Direction.Right) && this.inputActive) {
 
-                this.sound_swim.play('',0, 1, true);
                 this.player.animations.play('right');
                 this.startUpdatePosition(Direction.Right);
             }
@@ -624,7 +639,6 @@ module Octopussy {
 
             if(this.canMove(Direction.Up) && this.inputActive) {
 
-                this.sound_swim.play('', 0, 1, true);
                 this.player.animations.play('up');
                 this.startUpdatePosition(Direction.Up);
             }
@@ -634,7 +648,6 @@ module Octopussy {
 
             if(this.canMove(Direction.Down) && this.inputActive) {
 
-                this.sound_swim.play('', 0, 1, true);
                 this.player.animations.play('down');
                 this.startUpdatePosition(Direction.Down);
             }
