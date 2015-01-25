@@ -30,7 +30,7 @@ module Octopussy {
                 if(e.keyCode != Phaser.Keyboard.C && e.keyCode != Phaser.Keyboard.F1) {
 
                     this.game.input.keyboard.onDownCallback = null;
-                    this.game.state.start('Level');
+                    this.game.state.start('Story');
                 }
             }
         }

@@ -61,6 +61,14 @@ module Octopussy {
             timer.start();
         }
 
+        update() {
+
+            if (this.input.keyboard.isDown(Phaser.Keyboard.ENTER)) {
+
+                this.game.state.start('Level');
+            }
+        }
+
         private next() {
 
             this.storyState++;
