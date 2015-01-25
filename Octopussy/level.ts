@@ -23,12 +23,11 @@ module Octopussy {
         ];
         private isUpdating: boolean = false;
         private playerPosition: Phaser.Point = new Phaser.Point();
+        private playerDirection: number = 0;
         private keyMap: Phaser.Key[] = [null, null, null, null];
         private moveSpeed: number = 1;
-
-        player: Phaser.Sprite;
-        levelMusic: Phaser.Sound;
-
+        private player: Phaser.Sprite;
+        private levelMusic: Phaser.Sound;
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
 
@@ -49,6 +48,27 @@ module Octopussy {
             this.load.image('hud_down','assets/level/hud/img_arrow_down.png');
             this.load.image('hud_life','assets/level/hud/img_life.png');
 
+            this.load.image('hud_cross_0', 'assets/level/msg/lbl_cross_0.png');
+            this.load.image('hud_cross_1', 'assets/level/msg/lbl_cross_1.png');
+            this.load.image('hud_dwarf_0', 'assets/level/msg/lbl_dwarf_0.png');
+            this.load.image('hud_dwarf_1', 'assets/level/msg/lbl_dwarf_1.png');
+            this.load.image('hud_gameover_0', 'assets/level/msg/lbl_gameover_0.png');
+            this.load.image('hud_gameover_1', 'assets/level/msg/lbl_gameover_1.png');
+            this.load.image('hud_intro_0', 'assets/level/msg/lbl_intro_0.png');
+            this.load.image('hud_intro_1', 'assets/level/msg/lbl_intro_1.png');
+            this.load.image('hud_intro_2', 'assets/level/msg/lbl_intro_2.png');
+            this.load.image('hud_intro_3', 'assets/level/msg/lbl_intro_3.png');
+            this.load.image('hud_trap', 'assets/level/msg/lbl_trap_0.png');
+            this.load.image('hud_won_0', 'assets/level/msg/lbl_won_0.png');
+            this.load.image('hud_won_1', 'assets/level/msg/lbl_won_1.png');
+            this.load.image('hud_won_2', 'assets/level/msg/lbl_won_2.png');
+            this.load.image('hud_won_3', 'assets/level/msg/lbl_won_3.png');
+            this.load.image('hud_won_4', 'assets/level/msg/lbl_won_4.png');
+            this.load.image('hud_won_5', 'assets/level/msg/lbl_won_5.png');
+            this.load.image('hud_won_6', 'assets/level/msg/lbl_won_6.png');
+            this.load.image('hud_won_7', 'assets/level/msg/lbl_won_7.png');
+
+
             this.load.spritesheet('player', 'assets/tile_player_move.png', 512, 512);
             //this.load.audio('level1_background','assets/level1/sounds/octodwarfs_sad2.mp3');
 
@@ -60,6 +80,7 @@ module Octopussy {
 
             this.bindKeys();
             this.initLevel();
+            this.updatePlayer();
         }
 
         private createLevel() {
@@ -127,6 +148,7 @@ module Octopussy {
 
                 this.playerPosition.x = this.playerPosition.x + change.x;
                 this.playerPosition.y = this.playerPosition.y + change.y;
+                this.playerDirection = direction;
 
                 var timer = this.game.time.create(true);
                 timer.add((1000 / this.moveSpeed) + 100, this.updateTilePositions, this);
@@ -148,8 +170,6 @@ module Octopussy {
         }
 
         private updateTilePositions() {  
-
-            this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
 
             for(var r = 0; r < 5; r++) {
 
@@ -185,55 +205,55 @@ module Octopussy {
                         break;
 						
 						case 'V':
-                        sprite.loadTexture('tiles', 6);
+                            sprite.loadTexture('tiles', 6);
                         break;
 						
 						case '^':
-                        sprite.loadTexture('tiles', 7);
+                            sprite.loadTexture('tiles', 7);
                         break;
 
 						case '<':
-                        sprite.loadTexture('tiles', 8);
+                            sprite.loadTexture('tiles', 8);
                         break;
 						
 						case '>':
-                        sprite.loadTexture('tiles', 9);
+                            sprite.loadTexture('tiles', 9);
                         break;
 						
 						case '+':
-                        sprite.loadTexture('tiles', 10);
+                            sprite.loadTexture('tiles', 10);
                         break;
 						
 						case 'T':
-                        sprite.loadTexture('tiles', 11);
+                            sprite.loadTexture('tiles', 11);
                         break;
 						
 						case 'R':
-                        sprite.loadTexture('tiles', 12);
+                            sprite.loadTexture('tiles', 12);
                         break;
 						
 						case 'L':
-                        sprite.loadTexture('tiles', 13);
+                            sprite.loadTexture('tiles', 13);
                         break;
 						
 						case 'D':
-                        sprite.loadTexture('tiles', 14);
+                            sprite.loadTexture('tiles', 14);
                         break;
 						
 						case 'U':
-                        sprite.loadTexture('tiles', 15);
+                            sprite.loadTexture('tiles', 15);
                         break;
 						
                         case 'S':
-                        sprite.loadTexture('tiles', 11);
+                            sprite.loadTexture('tiles', 11);
                         break;
 						
                         case ' ':
-                        sprite.loadTexture('tiles', 11);
+                            sprite.loadTexture('tiles', 11);
                         break;
 						
 						case '#':
-                        sprite.loadTexture('tiles', 11);
+                            sprite.loadTexture('tiles', 11);
                         break;
                     }
 
@@ -241,14 +261,43 @@ module Octopussy {
                     sprite.position.y = this.tileSize * (r - 2) + this.game.world.centerY - this.tileSize / 2;
                 }
             }
-            this.onAnimationCompletePlayDefault();
+            this.updatePlayer();
             this.isUpdating = false;
         }
 
-        private onAnimationCompletePlayDefault() {
-            if(this.player){
+        private updatePlayer() {
+
+            this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
+
+            if(this.player) {
+
                 this.player.animations.play('waiting');
+                this.updateArrows();
             }
+        }
+
+        private updateArrows() {
+
+            for(var i = 0; i < 4; i++) {
+
+                if(this.canMove(i)) {
+
+                    this.arrowMap[i].alpha = 1.0;
+                } else {
+
+                    this.arrowMap[i].alpha = 0.3;
+                }
+            }
+        }
+
+        private isEven(imput: number) : boolean {
+
+            return imput % 2 == 0;
+        }
+
+        private isOdd(imput: number) : boolean {
+
+            return imput % 2 != 0;
         }
 
         bindKeys() {
@@ -324,7 +373,6 @@ module Octopussy {
             player.animations.add('right', [8,8,8,8,8,9,10,11,11,10,9,9], 15, true);
             player.animations.add('left', [27,27,27,27,27,26,25,24,24,25,26,26], 15, true);
             player.animations.add('player_death', [30,30,31,31,32,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, true);
-            player.animations.play('player_death');
             return player;
         }
 
@@ -368,11 +416,19 @@ module Octopussy {
                 case 'B':
                     this.addLife();
                     break;
+                case 'X':
+                    this.displayQuestion();
+                    break;
                 
                 default:
                     // code...
                     break;
             }
+        }
+
+        private displayQuestion() {
+
+
         }
 
         private addLife() {
@@ -420,5 +476,4 @@ module Octopussy {
             }
         }   
     }
-
 }
