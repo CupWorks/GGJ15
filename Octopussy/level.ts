@@ -28,7 +28,10 @@ module Octopussy {
 
         player: Phaser.Sprite;
         levelMusic: Phaser.Sound;
-        hud: Phaser.Sprite;
+
+        private arrowMap: Phaser.Sprite[] = [null, null, null, null];
+        private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
+
         lives: number = 7;
         liveSpritegroup: any;
 
@@ -40,12 +43,12 @@ module Octopussy {
             this.load.image('background_fog', 'assets/level/img_background_fog.png');
             this.load.image('background_sun', 'assets/level/img_background_sun2.png');
 
-            this.load.image('hud_mask','assets/level/hud/mask_hud_main.png');
-            this.load.image('hud_btn_left','assets/level/hud/btn_hud_left.png');
-            this.load.image('hud_btn_right','assets/level/hud/btn_hud_right.png');
-            this.load.image('hud_btn_up','assets/level/hud/btn_hud_up.png');
-            this.load.image('hud_btn_down','assets/level/hud/btn_hud_down.png');
-            this.load.image('ico_hud_live','assets/level/hud/ico_hud_live.png');
+            this.load.image('hud_mask','assets/level/hud/img_mask.png');
+            this.load.image('hud_left','assets/level/hud/img_arrow_left.png');
+            this.load.image('hud_right','assets/level/hud/img_arrow_right.png');
+            this.load.image('hud_up','assets/level/hud/img_arrow_up.png');
+            this.load.image('hud_down','assets/level/hud/img_arrow_down.png');
+            this.load.image('hud_life','assets/level/hud/img_life.png');
 
             this.load.spritesheet('player', 'assets/tile_player_move.png', 512, 512);
             //this.load.audio('level1_background','assets/level1/sounds/octodwarfs_sad2.mp3');
@@ -127,7 +130,7 @@ module Octopussy {
                 this.playerPosition.y = this.playerPosition.y + change.y;
 
                 var timer = this.game.time.create(true);
-                timer.add((1000 / this.moveSpeed) + 300, this.updateTilePositions, this);
+                timer.add((1000 / this.moveSpeed) + 200, this.updateTilePositions, this);
                 timer.start();
 
                 for(var r = 0; r < 5; r++) {
@@ -286,8 +289,28 @@ module Octopussy {
 
         initHud() {
 
-            this.hud = this.add.sprite(0, 0, 'hud_mask');
-            this.hud.fixedToCamera = true;
+            this.add.sprite(0, 0, 'hud_mask');
+
+            this.arrowMap[Direction.Left] = this.add.sprite(1160, 280, 'hud_left');
+            this.arrowMap[Direction.Left].scale.setTo(0.12, 0.12);
+            this.arrowMap[Direction.Left].alpha = 0.2;
+            this.arrowMap[Direction.Up] = this.add.sprite(1230, 220, 'hud_up');
+            this.arrowMap[Direction.Up].scale.setTo(0.12, 0.12);
+            this.arrowMap[Direction.Up].alpha = 0.2;
+            this.arrowMap[Direction.Right] = this.add.sprite(1300, 280, 'hud_right');
+            this.arrowMap[Direction.Right].scale.setTo(0.12, 0.12);
+            this.arrowMap[Direction.Right].alpha = 0.2;
+            this.arrowMap[Direction.Down] = this.add.sprite(1230, 340, 'hud_down');
+            this.arrowMap[Direction.Down].scale.setTo(0.12, 0.12);
+            this.arrowMap[Direction.Down].alpha = 0.2;
+
+            for(var i = 0; i < 7; i++) {
+;
+            this.lifeMap[i] = this.add.sprite(this.world.centerX - (6 * 116 / 2 + 32) + (i * 116), 615, 'hud_life');
+            this.lifeMap[i].scale.setTo(0.37 , 0.37);
+            this.lifeMap[i].alpha = 0.2;
+            }
+
         }
 
         initPlayer() {
