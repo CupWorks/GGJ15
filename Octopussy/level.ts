@@ -314,6 +314,7 @@ module Octopussy {
                             sprite.loadTexture('tiles', 11);
 
                         break;
+                        
                     }
 
                     sprite.position.x = this.tileSize * (c - 2) + this.game.world.centerX - this.tileSize / 2;
