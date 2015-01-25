@@ -28,6 +28,12 @@ module Octopussy {
         private moveSpeed: number = 1;
         private player: Phaser.Sprite;
         private levelMusic: Phaser.Sound;
+        private sound_swim: Phaser.Sound;
+        private sound_death: Phaser.Sound;
+        private sound_trap: Phaser.Sound;
+        private sound_friend_collect: Phaser.Sound;
+        private sound_friend_lost: Phaser.Sound;
+
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
 
@@ -70,7 +76,13 @@ module Octopussy {
 
 
             this.load.spritesheet('player', 'assets/tile_player_move.png', 512, 512);
-            //this.load.audio('level1_background','assets/level1/sounds/octodwarfs_sad2.mp3');
+
+            this.load.audio('level_background_music','assets/level/sounds/music.mp3');
+            this.load.audio('sound_death','assets/level/sounds/death.mp3');
+            this.load.audio('sound_swim','assets/level/sounds/swim.mp3');
+            this.load.audio('sound_trap','assets/level/sounds/trap.mp3');
+            this.load.audio('sound_friend_collect','assets/level/sounds/friend_collected.mp3');
+            this.load.audio('sound_friend_lost','assets/level/sounds/friend_lost.mp3');
 
         }
 
@@ -325,14 +337,18 @@ module Octopussy {
             .loop().start();
 
             this.initHud();
-            //this.initSound();
+            this.initSound();
 
         }
 
         initSound() {
-
-            this.levelMusic = this.add.audio('level1_background', 1, true);
-            this.levelMusic.play('', 0, 1, true);
+            this.levelMusic = this.add.audio('level_background_music', 1, true);
+            this.sound_swim = this.add.audio('sound_swim', 1, true);
+            this.sound_death= this.add.audio('sound_death');
+            this.sound_trap= this.add.audio('sound_trap');
+            this.sound_friend_collect= this.add.audio('sound_friend_collect');
+            this.sound_friend_lost= this.add.audio('sound_friend_lost');
+            this.levelMusic.play('', 0, 0.7, true);
         }
 
         initHud() {
@@ -445,6 +461,7 @@ module Octopussy {
             if(this.canMove(Direction.Left)) {
 
                 this.player.animations.play('left');
+                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Left);
             }
         }
@@ -454,6 +471,7 @@ module Octopussy {
             if(this.canMove(Direction.Right)) {
 
                 this.player.animations.play('right');
+                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Right);
             }
         }   
@@ -463,6 +481,7 @@ module Octopussy {
             if(this.canMove(Direction.Up)) {
 
                 this.player.animations.play('up');
+                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Up);
             }
         }  
@@ -472,6 +491,7 @@ module Octopussy {
             if(this.canMove(Direction.Down)) {
 
                 this.player.animations.play('down');
+                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Down);
             }
         }   
