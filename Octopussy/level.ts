@@ -324,7 +324,7 @@ module Octopussy {
             player.animations.add('right', [8,8,8,8,8,9,10,11,11,10,9,9], 15, true);
             player.animations.add('left', [27,27,27,27,27,26,25,24,24,25,26,26], 15, true);
             player.animations.add('player_death', [30,30,31,31,32,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, true);
-            player.animations.play('player_death');
+            player.animations.play('waiting');
             return player;
         }
 
