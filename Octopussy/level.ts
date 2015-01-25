@@ -56,6 +56,7 @@ module Octopussy {
             this.load.image('hud_up','assets/level/hud/img_arrow_up.png');
             this.load.image('hud_down','assets/level/hud/img_arrow_down.png');
             this.load.image('hud_life','assets/level/hud/img_life.png');
+            this.load.image('hud_won','assets/level/img_winning.png');
 
             this.load.image('hud_cross_0', 'assets/level/msg/lbl_cross_0.png');
             this.load.image('hud_cross_1', 'assets/level/msg/lbl_cross_1.png');
@@ -562,7 +563,8 @@ module Octopussy {
             this.changeHold();
             this.showMessage('hud_won_' + this.lifes, false);
             var timer = this.game.time.create(true);
-            timer.add(5000, function() { this.game.state.start('MainMenu'); }, this);
+            timer.add(3000, function() { this.add.sprite(0, 0, 'hud_won') }, this);
+            timer.add(8000, function() { this.game.state.start('MainMenu'); }, this);
             timer.start();
         }
 
