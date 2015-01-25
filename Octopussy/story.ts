@@ -97,9 +97,12 @@ module Octopussy {
         }
 
         shutdown() {
+
             this.storyState = 0;
 
-            this.sound2_long.stop();
+            if(this.sound2_long){
+                this.sound2_long.stop();
+            }
         }
     }
 } 
