@@ -11,7 +11,6 @@ module Octopussy {
             this.state.add('Intro', Intro, false);
             this.state.add('Story', Story, false);
             this.state.add('MainMenu', MainMenu, false);
-            this.state.add('Credits', Credits, false);
             this.state.add('Level', Level, false);
 
             this.state.start('Boot');
