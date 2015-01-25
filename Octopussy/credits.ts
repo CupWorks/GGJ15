@@ -3,7 +3,12 @@
 module Octopussy {
     export class Credits extends FullscreenState {
 
-    	private credits = "Credits\nFoo\nFoo\nFoo\nFoo\nFoo\nFoo\nFoo\nFoo\nFoo";
+    	private credits = "Credits\nChristoph 'The Mantis Shrimp' Becher - 
+		Programming\nHenning Behrendt - Sound\nTim Beier - Art, Level Design\n
+		Kerstin Buzelan - Original Hacktopus Character Design\nMike 'The Black 
+		Eel' Gehrhardt - Programming\nSohyun Jung - Character Design\nKjell 
+		Nehring - Art\nAlita Pantea - Game Design, Scripting, PR\nNorman v. 
+		Rechenberg - Game Design, Art";
 
         create() {
             super.create();
