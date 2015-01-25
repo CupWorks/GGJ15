@@ -562,6 +562,7 @@ module Octopussy {
         private addLife() {
 
             this.sound_friend_collect.play();
+            this.player.animations.play('clone_rescued');
             this.lifeMap[this.lifes].alpha = 1;
             this.lifes = this.lifes + 1;
             var line = this.currentLevelData[this.playerPosition.y];
