@@ -394,11 +394,11 @@ module Octopussy {
             player.anchor.setTo(0.5, 0.5);
             player.animations.add('up', [19,19,19,19,20,20,20,20,21,21,21,22,22,23,23,21,21,22,22,23,23,20,20], 20, true);
             player.animations.add('down', [17,17,17,16,16,13,13,14,14,14,13,13,13,13,14,14,14,15,15,15,16,16,16], 20, true);
-            player.animations.add('waiting', [0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1,], 15, true);
+            player.animations.add('waiting', [0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1], 15, true);
             player.animations.add('right', [8,8,8,8,8,9,10,11,11,10,9,9], 15, true);
             player.animations.add('left', [27,27,27,27,27,26,25,24,24,25,26,26], 15, true);
             player.animations.add('player_death', [30,31,30,31,32,31,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, false);
-            player.animations.add('clone_rescued', [3,3,3,3,4,4,4,4,5,5,5,5,4,4,4,4,], 15, false);
+            player.animations.add('clone_rescued', [3,3,4,4,5,5,38,38,39,39,40,40,41,41,3,3,4,4,5,5,38,38,39,39,40,40,41,41,3,3,0,0,0,0,1,1,1,1,2,2,2,2,1,1,1,1], 20, false);
             return player;
         }
 
