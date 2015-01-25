@@ -13,21 +13,20 @@ module Octopussy {
         create() {
             super.create();
 
+            this.stage.setBackgroundColor('#000000');
+
             this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo_cupworks');
             this.logo.anchor.setTo(0.5, 0.5);
             this.logo.alpha = 0;
 
-            var tween = this.add.tween(this.logo).to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None, true);
+            var tween = this.add.tween(this.logo).to({ alpha: 1 }, 3000, Phaser.Easing.Bounce.InOut, true);
             tween.onComplete.add(this.fateOut, this);
         }
 
         private fateOut() {
 
-            var tween = this.add.tween(this.logo).to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None, true);
+            var tween = this.add.tween(this.logo).to({ alpha: 0 }, 3000, Phaser.Easing.Bounce.InOut, true);
             tween.onComplete.add(this.changeState, this);
-            //var timer = this.game.time.create(true);
-            //timer.add(2000, this.changeState, this);
-            //timer.start();
         }
 
         private changeState() {
