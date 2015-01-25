@@ -43,7 +43,7 @@ module Octopussy {
 
         preload() {
 
-            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 16);
+            this.load.spritesheet('tiles', 'assets/level/tiles.png', 512, 512, 20);
 
             this.load.image('background', 'assets/level/img_background_blue.jpg');
             this.load.image('background_fog', 'assets/level/img_background_fog.png');
@@ -277,6 +277,11 @@ module Octopussy {
                         case 'T':
                         case 'E':
                             sprite.loadTexture('tiles', 11);
+
+                        case 'S':                       
+                        case 'E':
+                            sprite.loadTexture('tiles', 16);
+
                         break;
                     }
 
@@ -462,7 +467,6 @@ module Octopussy {
 
             switch (symbol) {
                 case 'B':
-                    this.sound_friend_collect.play();
                     this.addLife();
                     break;
 
@@ -543,6 +547,7 @@ module Octopussy {
 
         private addLife() {
 
+            this.sound_friend_collect.play();
             this.lifeMap[this.lifes].alpha = 1;
             this.lifes = this.lifes + 1;
             var line = this.currentLevelData[this.playerPosition.y];
