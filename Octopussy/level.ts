@@ -35,6 +35,7 @@ module Octopussy {
         private sound_friend_collect: Phaser.Sound;
         private sound_friend_lost: Phaser.Sound;
         private inputActive: boolean = true;
+        private hold: boolean = false;
 
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
@@ -99,13 +100,32 @@ module Octopussy {
             this.displayStartMessage();
         }
 
+        private changeHold() {
+
+            if (this.hold) {
+
+                this.hold = false;
+                this.updateArrows();
+            }
+            else  {
+
+                for(var i = 0; i < 4; i++) {
+
+                    this.arrowMap[i].alpha = 0;
+                }
+                this.hold = true;
+
+            }
+        }
+
         private displayStartMessage() {
 
+            this.changeHold();
             var timer = this.game.time.create(true);
             timer.add(1000, function() { this.showMessage('hud_intro_0', false); }, this);
             timer.add(3050, function() { this.showMessage('hud_intro_1', false); }, this);
             timer.add(4550, function() { this.showMessage('hud_intro_2', false); }, this);
-            timer.add(7050, function() { this.showMessage('hud_intro_3', true); }, this);
+            timer.add(7050, function() { this.showMessage('hud_intro_3', true); this.changeHold(); }, this);
             timer.start();
         }
 
@@ -420,39 +440,42 @@ module Octopussy {
 
         update() {
 
-            if(this.keyMap[Direction.Left].isDown) {
-                this.leftPressed();
-            }
-            else if(this.keyMap[Direction.Up].isDown) {
-                this.upPressed();
-            }
-            else if(this.keyMap[Direction.Right].isDown) {
-                this.rightPressed();
-            }
-            else if(this.keyMap[Direction.Down].isDown) {
-                this.downPressed();
-            }
-            else if(this.keyMap[Direction.Down].isUp &&
-                this.keyMap[Direction.Up].isUp &&
-                this.keyMap[Direction.Right].isUp &&
-                this.keyMap[Direction.Left].isUp) {
+            if(!this.hold)
+            {
+                if(this.keyMap[Direction.Left].isDown) {
+                    this.leftPressed();
+                }
+                else if(this.keyMap[Direction.Up].isDown) {
+                    this.upPressed();
+                }
+                else if(this.keyMap[Direction.Right].isDown) {
+                    this.rightPressed();
+                }
+                else if(this.keyMap[Direction.Down].isDown) {
+                    this.downPressed();
+                }
+                else if(this.keyMap[Direction.Down].isUp &&
+                    this.keyMap[Direction.Up].isUp &&
+                    this.keyMap[Direction.Right].isUp &&
+                    this.keyMap[Direction.Left].isUp) {
 
-                this.setInputActive();
-                this.sound_swim.loop = false;
-            }
+                    this.setInputActive();
+                    this.sound_swim.loop = false;
+                }
 
-            if(this.keyMap[Direction.Right].justDown){
-                this.sound_swim.play('',0,1,true);
-            }
+                if(this.keyMap[Direction.Right].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
 
-            if(this.keyMap[Direction.Left].justDown){
-                this.sound_swim.play('',0,1,true);
-            }
-            if(this.keyMap[Direction.Up].justDown){
-                this.sound_swim.play('',0,1,true);
-            }
-            if(this.keyMap[Direction.Down].justDown){
-                this.sound_swim.play('',0,1,true);
+                if(this.keyMap[Direction.Left].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
+                if(this.keyMap[Direction.Up].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
+                if(this.keyMap[Direction.Down].justDown){
+                    this.sound_swim.play('',0,1,true);
+                }
             }
         }
 
@@ -519,6 +542,7 @@ module Octopussy {
 
         private gameOver() {
 
+            this.changeHold();
             this.showMessage('hud_gameover_0', false);
             var timer = this.game.time.create(true);
             timer.add(3000, function() { this.showMessage('hud_gameover_1', true); }, this);
@@ -528,6 +552,7 @@ module Octopussy {
 
         private won() {
 
+            this.changeHold();
             this.showMessage('hud_won_' + this.lifes, false);
             var timer = this.game.time.create(true);
             timer.add(5000, function() { this.game.state.start('MainMenu'); }, this);
