@@ -41,6 +41,7 @@ module Octopussy {
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
 
         private lifes: number = 0;
+        private possibleLifes: number = 6;
 
         preload() {
 
@@ -55,7 +56,7 @@ module Octopussy {
             this.load.image('hud_right','assets/level/hud/img_arrow_right.png');
             this.load.image('hud_up','assets/level/hud/img_arrow_up.png');
             this.load.image('hud_down','assets/level/hud/img_arrow_down.png');
-            this.load.image('hud_life','assets/level/hud/img_life.png');
+            this.load.spritesheet('hud_life','assets/level/hud/img_life.png', 175, 175, 2);
             this.load.image('hud_won','assets/level/img_winning.png');
 
             this.load.image('hud_cross_0', 'assets/level/msg/lbl_cross_0.png');
@@ -527,6 +528,11 @@ module Octopussy {
                 this.showMessage('hud_trap', true);
                 this.lifes = this.lifes - 1;
                 this.lifeMap[this.lifes].alpha = 0.3;
+
+                
+                this.lifeMap[this.possibleLifes].frame = 1;      
+                this.possibleLifes = this.possibleLifes - 1;
+
                 var timer = this.game.time.create(true);
                 timer.add(3000, function() { this.player.animations.play('waiting'); }, this);
                 timer.start();
