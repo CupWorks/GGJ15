@@ -335,6 +335,7 @@ module Octopussy {
 
             if(this.player) {
                 this.sound_swim.stop();
+                this.sound_swim.position = 0;
                 this.player.animations.play('waiting');
                 this.updateArrows();
             }
@@ -394,6 +395,7 @@ module Octopussy {
 
             this.levelMusic = this.add.audio('level_background_music', 1, true);
             this.sound_swim = this.add.audio('sound_swim', 1, true);
+            this.sound_swim.loop = true;
             this.sound_death= this.add.audio('sound_death');
             this.sound_trap= this.add.audio('sound_trap');
             this.sound_friend_collect= this.add.audio('sound_friend_collect');
@@ -552,8 +554,8 @@ module Octopussy {
             this.changeHold();
             this.showMessage('hud_won_' + this.lifes, false);
             var timer = this.game.time.create(true);
-            timer.add(3000, function() { this.add.sprite(0, 0, 'hud_won') }, this);
-            timer.add(8000, function() { this.game.state.start('MainMenu'); }, this);
+            timer.add(4000, function() { this.add.sprite(0, 0, 'hud_won') }, this);
+            timer.add(9000, function() { this.game.state.start('MainMenu'); }, this);
             timer.start();
         }
 
@@ -604,7 +606,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Left) && this.inputActive) {
 
-                this.sound_swim.play('',0, 1, true);
+                this.sound_swim.play();
                 this.player.animations.play('left');
                 this.startUpdatePosition(Direction.Left);
             }
@@ -614,7 +616,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Right) && this.inputActive) {
 
-                this.sound_swim.play('',0, 1, true);
+                this.sound_swim.play();
                 this.player.animations.play('right');
                 this.startUpdatePosition(Direction.Right);
             }
@@ -624,7 +626,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Up) && this.inputActive) {
 
-                this.sound_swim.play('', 0, 1, true);
+                this.sound_swim.play();
                 this.player.animations.play('up');
                 this.startUpdatePosition(Direction.Up);
             }
@@ -634,7 +636,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Down) && this.inputActive) {
 
-                this.sound_swim.play('', 0, 1, true);
+                this.sound_swim.play();
                 this.player.animations.play('down');
                 this.startUpdatePosition(Direction.Down);
             }
