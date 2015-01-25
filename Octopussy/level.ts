@@ -39,7 +39,7 @@ module Octopussy {
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
 
-        lifes: number = 0;
+        private lifes: number = 0;
 
         preload() {
 
@@ -95,6 +95,17 @@ module Octopussy {
             this.bindKeys();
             this.initLevel();
             this.updatePlayer();
+            this.displayStartMessage();
+        }
+
+        private displayStartMessage() {
+
+            var timer = this.game.time.create(true);
+            timer.add(1000, function() { this.showMessage('hud_intro_0', false); }, this);
+            timer.add(3050, function() { this.showMessage('hud_intro_1', false); }, this);
+            timer.add(4550, function() { this.showMessage('hud_intro_2', false); }, this);
+            timer.add(7050, function() { this.showMessage('hud_intro_3', true); }, this);
+            timer.start();
         }
 
         private createLevel() {
@@ -112,7 +123,7 @@ module Octopussy {
                     }
 
                 }
-            };  
+            } 
 
             for(var r = 0; r < 5; r++) {
 
@@ -122,7 +133,7 @@ module Octopussy {
                     sprite.scale.setTo(this.tileSize / 512, this.tileSize / 512);
                     this.visibleTiles[r][c] = sprite;
                 }
-            };
+            }
 
             this.updateTilePositions();
         }
@@ -258,19 +269,13 @@ module Octopussy {
                             sprite.loadTexture('tiles', 15);
                         break;
                         
-                        case 'S':
-                            sprite.loadTexture('tiles', 11);
-                        break;
-                        
+                        case 'S':                       
                         case 'X':
-                            sprite.loadTexture('tiles', 11);
-                        break;
-
-                        case ' ':
-                            sprite.loadTexture('tiles', 11);
-                        break;
-                        
+                        case ' ':                        
                         case '#':
+                        case 'B':
+                        case 'T':
+                        case 'E':
                             sprite.loadTexture('tiles', 11);
                         break;
                     }
@@ -460,8 +465,13 @@ module Octopussy {
                     this.sound_friend_collect.play();
                     this.addLife();
                     break;
+
                 case 'X':
                     this.displayQuestion();
+                    break;
+
+                case 'E':
+                    this.endLevel();
                     break;
                 
                 default:
@@ -470,12 +480,23 @@ module Octopussy {
             }
         }
 
+        private endLevel() {
+
+            this.showMessage('hud_won_' + this.lifes, false);
+            var timer = this.game.time.create(true);
+            timer.add(5000, function() { this.game.state.start('MainMenu'); }, this);
+            timer.start();
+        }
+
         private showMessage(imageKey: string, fade: boolean) {
 
             this.messageBox.loadTexture(imageKey, 0);
             this.messageBox.alpha = 1;
+            if(fade == true) {
+
             this.add.tween(this.messageBox).to({ alpha: 1 }, 2000, Phaser.Easing.Linear.None)
-            .to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None).start();
+                .to({ alpha: 0 }, 2000, Phaser.Easing.Linear.None).start();                
+            }
 
             this.inputActive = false;
         }
