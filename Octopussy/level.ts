@@ -338,7 +338,7 @@ module Octopussy {
             .loop().start();
 
             this.initHud();
-            //this.initSound();
+            this.initSound();
 
         }
 
