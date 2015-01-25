@@ -25,11 +25,6 @@ module Octopussy {
         private playerPosition: Phaser.Point = new Phaser.Point();
         private keyMap: Phaser.Key[] = [null, null, null, null];
         private moveSpeed: number = 1;
-<<<<<<< HEAD
-
-        player: Phaser.Sprite;
-        levelMusic: Phaser.Sound;
-=======
         private player: Phaser.Sprite;
         private messageBox: Phaser.Sprite;
         private levelMusic: Phaser.Sound;
@@ -39,7 +34,6 @@ module Octopussy {
         private sound_friend_collect: Phaser.Sound;
         private sound_friend_lost: Phaser.Sound;
         private inputActive: boolean = true;
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
 
         private arrowMap: Phaser.Sprite[] = [null, null, null, null];
         private lifeMap: Phaser.Sprite[] = [null, null, null, null, null, null, null];
@@ -279,8 +273,6 @@ module Octopussy {
             }
         }
 
-<<<<<<< HEAD
-=======
         private updateArrows() {
 
             for(var i = 0; i < 4; i++) {
@@ -294,8 +286,6 @@ module Octopussy {
                 }
             }
         }
-
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
         bindKeys() {
 
             this.keyMap[Direction.Left] = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
@@ -332,10 +322,8 @@ module Octopussy {
 
         initSound() {
 
-<<<<<<< HEAD
             this.levelMusic = this.add.audio('level1_background', 1, true);
             this.levelMusic.play('', 0, 1, true);
-=======
             this.levelMusic = this.add.audio('level_background_music', 1, true);
             this.sound_swim = this.add.audio('sound_swim', 1, true);
             this.sound_death = this.add.audio('sound_death');
@@ -343,7 +331,6 @@ module Octopussy {
             this.sound_friend_collect = this.add.audio('sound_friend_collect');
             this.sound_friend_lost = this.add.audio('sound_friend_lost');
             this.levelMusic.play('', 0, 0.7, true);
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
         }
 
         initHud() {
@@ -444,8 +431,6 @@ module Octopussy {
             }
         }
 
-<<<<<<< HEAD
-=======
         private showMessage(imageKey: string, fade: boolean) {
 
             this.messageBox.loadTexture(imageKey, 0);
@@ -468,7 +453,6 @@ module Octopussy {
 
         }
 
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
         private addLife() {
 
             this.lifeMap[this.lifes].alpha = 1;
@@ -487,10 +471,7 @@ module Octopussy {
             if(this.canMove(Direction.Left) && this.inputActive) {
 
                 this.player.animations.play('left');
-<<<<<<< HEAD
-=======
                 //this.sound_swim.play('', 0, 1, true);
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
                 this.startUpdatePosition(Direction.Left);
             }
         }
@@ -500,10 +481,7 @@ module Octopussy {
             if(this.canMove(Direction.Right) && this.inputActive) {
 
                 this.player.animations.play('right');
-<<<<<<< HEAD
-=======
                 //this.sound_swim.play('', 0, 1, true);
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
                 this.startUpdatePosition(Direction.Right);
             }
         }   
@@ -513,10 +491,7 @@ module Octopussy {
             if(this.canMove(Direction.Up) && this.inputActive) {
 
                 this.player.animations.play('up');
-<<<<<<< HEAD
-=======
                 //this.sound_swim.play('', 0, 1, true);
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
                 this.startUpdatePosition(Direction.Up);
             }
         }  
@@ -526,10 +501,7 @@ module Octopussy {
             if(this.canMove(Direction.Down) && this.inputActive) {
 
                 this.player.animations.play('down');
-<<<<<<< HEAD
-=======
                 //this.sound_swim.play('', 0, 1, true);
->>>>>>> 4ca8ee8891098e84bf26dde843a3335c23fb5c20
                 this.startUpdatePosition(Direction.Down);
             }
         }   
