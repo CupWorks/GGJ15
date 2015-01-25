@@ -209,24 +209,20 @@ module Octopussy {
                         sprite.loadTexture('tiles', 11);
                         break;
 						
-						case '#':
+						case 'R':
                         sprite.loadTexture('tiles', 12);
                         break;
 						
-						case 'R':
+						case 'L':
                         sprite.loadTexture('tiles', 13);
                         break;
 						
-						case 'L':
+						case 'D':
                         sprite.loadTexture('tiles', 14);
                         break;
 						
-						case 'D':
-                        sprite.loadTexture('tiles', 15);
-                        break;
-						
 						case 'U':
-                        sprite.loadTexture('tiles', 16);
+                        sprite.loadTexture('tiles', 15);
                         break;
 						
                         case 'S':
@@ -234,6 +230,10 @@ module Octopussy {
                         break;
 						
                         case ' ':
+                        sprite.loadTexture('tiles', 11);
+                        break;
+						
+						case '#':
                         sprite.loadTexture('tiles', 11);
                         break;
                     }
