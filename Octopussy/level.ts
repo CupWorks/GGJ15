@@ -346,19 +346,11 @@ module Octopussy {
 
             this.levelMusic = this.add.audio('level_background_music', 1, true);
             this.sound_swim = this.add.audio('sound_swim', 1, true);
-<<<<<<< HEAD
             this.sound_death= this.add.audio('sound_death');
             this.sound_trap= this.add.audio('sound_trap');
             this.sound_friend_collect= this.add.audio('sound_friend_collect');
             this.sound_friend_lost= this.add.audio('sound_friend_lost');
             this.levelMusic.play('', 0, 0.5, true);
-=======
-            this.sound_death = this.add.audio('sound_death');
-            this.sound_trap = this.add.audio('sound_trap');
-            this.sound_friend_collect = this.add.audio('sound_friend_collect');
-            this.sound_friend_lost = this.add.audio('sound_friend_lost');
-            this.levelMusic.play('', 0, 0.7, true);
->>>>>>> FETCH_HEAD
         }
 
         initHud() {
