@@ -12,7 +12,7 @@ module Octopussy {
         private tileSize: number =  180;
         private levelData: LevelData = new LevelData();
         private currentLevel: number = 0;
-        private currentLevelData: string[] = this.levelData.get(this.currentLevel);
+        private currentLevelData: string[];
         private visibleTiles: Phaser.Sprite[][] = 
         [
             [null, null, null, null, null],
@@ -86,6 +86,7 @@ module Octopussy {
             this.load.audio('sound_friend_collect','assets/level/sounds/friend_collected.mp3');
             this.load.audio('sound_friend_lost','assets/level/sounds/friend_lost.mp3');
 
+            this.currentLevelData = this.levelData.get(this.currentLevel);
         }
 
         create() {
