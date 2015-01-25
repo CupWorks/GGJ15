@@ -92,8 +92,6 @@ module Octopussy {
 
         create() {
 
-            this.currentLevelData = this.levelData.get(this.currentLevel);
-
             super.create();
 
             this.bindKeys();
@@ -606,7 +604,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Left) && this.inputActive) {
 
-                this.sound_swim.play('',0,1,true);
+                this.sound_swim.play('',0, 1, true);
                 this.player.animations.play('left');
                 this.startUpdatePosition(Direction.Left);
             }
@@ -616,7 +614,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Right) && this.inputActive) {
 
-                this.sound_swim.play('',0,1,true);
+                this.sound_swim.play('',0, 1, true);
                 this.player.animations.play('right');
                 this.startUpdatePosition(Direction.Right);
             }
@@ -626,7 +624,7 @@ module Octopussy {
 
             if(this.canMove(Direction.Up) && this.inputActive) {
 
-                this.sound_swim.play('',0,1,true);
+                this.sound_swim.play('', 0, 1, true);
                 this.player.animations.play('up');
                 this.startUpdatePosition(Direction.Up);
             }
@@ -636,13 +634,18 @@ module Octopussy {
 
             if(this.canMove(Direction.Down) && this.inputActive) {
 
-                this.sound_swim.play('',0,1,true);
+                this.sound_swim.play('', 0, 1, true);
                 this.player.animations.play('down');
                 this.startUpdatePosition(Direction.Down);
             }
         }
 
         shutdown() {
+
+            this.currentLevelData = this.levelData.get(this.currentLevel);
+            this.lifes = 0;
+            this.possibleLifes = 6;
+
             this.levelMusic.stop();
             this.sound_swim.stop();
             this.sound_death.stop();

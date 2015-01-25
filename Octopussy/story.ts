@@ -48,9 +48,6 @@ module Octopussy {
         }
 
         create() {
-
-            this.storyState = 0;
-
             super.create();
 
             this.board = this.add.sprite(0, 0, null);
@@ -100,6 +97,8 @@ module Octopussy {
         }
 
         shutdown() {
+            this.storyState = 0;
+
             this.sound2_long.stop();
         }
     }
