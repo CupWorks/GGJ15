@@ -334,6 +334,7 @@ module Octopussy {
         private updatePlayer() {
 
             if(this.player) {
+
                 this.player.animations.play('waiting');
                 this.updateArrows();
             }
@@ -569,8 +570,8 @@ module Octopussy {
             this.changeHold();
             this.showMessage('hud_won_' + this.lifes, false);
             var timer = this.game.time.create(true);
-            timer.add(3000, function() { this.add.sprite(0, 0, 'hud_won') }, this);
-            timer.add(8000, function() { this.game.state.start('MainMenu'); }, this);
+            timer.add(4000, function() { this.add.sprite(0, 0, 'hud_won') }, this);
+            timer.add(9000, function() { this.game.state.start('MainMenu'); }, this);
             timer.start();
         }
 
@@ -655,6 +656,7 @@ module Octopussy {
 
         shutdown() {
 
+            this.hold = false;
             this.currentLevelData = this.levelData.get(this.currentLevel);
             this.lifes = 0;
             this.possibleLifes = 6;
