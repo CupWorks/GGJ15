@@ -282,7 +282,7 @@ module Octopussy {
             this.positionEvent(this.currentLevelData[this.playerPosition.y][this.playerPosition.x]);
 
             if(this.player) {
-
+                
                 this.player.animations.play('waiting');
                 this.updateArrows();
             }
@@ -348,7 +348,7 @@ module Octopussy {
             this.sound_trap= this.add.audio('sound_trap');
             this.sound_friend_collect= this.add.audio('sound_friend_collect');
             this.sound_friend_lost= this.add.audio('sound_friend_lost');
-            this.levelMusic.play('', 0, 0.7, true);
+            this.levelMusic.play('', 0, 0.5, true);
         }
 
         initHud() {
@@ -389,6 +389,7 @@ module Octopussy {
             player.animations.add('right', [8,8,8,8,8,9,10,11,11,10,9,9], 15, true);
             player.animations.add('left', [27,27,27,27,27,26,25,24,24,25,26,26], 15, true);
             player.animations.add('player_death', [30,30,31,31,32,32,33,33,33,33,34,34,35,35,36,36,37,37], 10, true);
+            player.animations.add('clone_rescued', [3,3,3,3,4,4,4,4,5,5,5,5,4,4,4,4,], 15, true);
             return player;
         }
 
@@ -405,7 +406,23 @@ module Octopussy {
             }
             else if(this.keyMap[Direction.Down].isDown) {
                 this.downPressed();
+            } else {
+                this.sound_swim.loop = false;
             }
+
+            if(this.keyMap[Direction.Right].justDown){
+                this.sound_swim.play('',0,1,true);
+            }
+            if(this.keyMap[Direction.Left].justDown){
+                this.sound_swim.play('',0,1,true);
+            }
+            if(this.keyMap[Direction.Up].justDown){
+                this.sound_swim.play('',0,1,true);
+            }
+            if(this.keyMap[Direction.Down].justDown){
+                this.sound_swim.play('',0,1,true);
+            }
+
         }
 
         private canMove(direction: Direction): boolean {
@@ -430,6 +447,7 @@ module Octopussy {
 
             switch (symbol) {
                 case 'B':
+                    this.sound_friend_collect.play();
                     this.addLife();
                     break;
                 case 'X':
@@ -461,7 +479,6 @@ module Octopussy {
             if(this.canMove(Direction.Left)) {
 
                 this.player.animations.play('left');
-                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Left);
             }
         }
@@ -471,7 +488,6 @@ module Octopussy {
             if(this.canMove(Direction.Right)) {
 
                 this.player.animations.play('right');
-                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Right);
             }
         }   
@@ -481,7 +497,6 @@ module Octopussy {
             if(this.canMove(Direction.Up)) {
 
                 this.player.animations.play('up');
-                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Up);
             }
         }  
@@ -491,7 +506,6 @@ module Octopussy {
             if(this.canMove(Direction.Down)) {
 
                 this.player.animations.play('down');
-                this.sound_swim.play('', 0, 1, true);
                 this.startUpdatePosition(Direction.Down);
             }
         }   
